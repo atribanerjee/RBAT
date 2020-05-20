@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google-site-verification" content="s_dp8Zb49ObqMc-olwck5_YjuvJb0YVD4JRJhql7FXI" />
+    <title>@ViewData["Title"] - BMM.Web</title>
+
+    <link rel="stylesheet" href="~/lib/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/lib/css/bootstrap-datepicker.css" />
+    <link rel="stylesheet" href="~/css/jquery.dataTables.css" />
+    <link rel="stylesheet" href="~/css/jquery-ui.css" />
+    <link rel="stylesheet" href="~/lib/css/buttons.bootstrap.css" />
+    <link rel="stylesheet" href="~/lib/css/dygraph.css">
+    <link rel="stylesheet" href="~/css/jquery-ui.css" />
+    <link rel="stylesheet" href="~/lib/css/scroller.bootstrap4.css">
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    <!-- Custom styles for this template-->
+    <link href="~/css/sb-admin.css" rel="stylesheet">
+    <link href="~/lib/css/all.css" rel="stylesheet">
+
+    <script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/lib/js/jquery.js"></script>
+    <script type="text/javascript" src="~/lib/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="~/lib/js/popper.js"></script>@*Before bootstrap*@
+    <script type="text/javascript" src="~/lib/js/bootstrap.js"></script>
+    <script type="text/javascript" src="~/lib/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="~/lib/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="~/lib/js/jszip.js"></script>
+    <script type="text/javascript" src="~/lib/js/pdfmake.js"></script>
+    <script type="text/javascript" src="~/lib/js/dataTables.buttons.js"></script>
+    <script type="text/javascript" src="~/lib/js/dataTables.select.js"></script>
+    <script type="text/javascript" src="~/lib/js/dataTables.rowReorder.js"></script>
+    <script type="text/javascript" src="~/lib/js/buttons.html5.js"></script>
+    <script type="text/javascript" src="~/lib/js/buttons.print.js"></script>
+    <script type="text/javascript" src="~/lib/js/buttons.bootstrap.js"></script>
+    <script type="text/javascript" src="~/lib/js/vfs_fonts.js"></script>
+
+    <script src="@Url.Content("~/js/modalforms.js")"></script>
+
+</head>
+<body id="page-top" class="sidebar-toggled">
+
+   <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
+       <a class="navbar-brand mr-1" asp-controller="Project" asp-action="Index">WEB.BM</a>
+      @*<button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+         <i class="fas fa-bars"></i>
+      </button>*@
+
+       <ul class="sidebar navbar-nav toggled">
+           <li class="nav-item">
+               <a class="nav-link" asp-controller="Project" asp-action="Index">
+                   <i class="fas fa-fw fa-table"></i>
+                   <span>Project</span>
+               </a>
+           </li>
+           <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   <i class="fas fa-fw fa-folder"></i>
+                   <span>Project Scenario</span>
+               </a>
+               <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                   <a class="dropdown-item" asp-controller="Scenario" asp-action="Index">Scenario</a>
+                   <div class="dropdown-divider"></div>
+                   <h1 class="dropdown-header">Channel components</h1>
+                   <a class="dropdown-item" asp-controller="ChannelPolicyGroup" asp-action="Index">Policy Group</a>
+                   <a class="dropdown-item" asp-controller="ChannelZone" asp-action="Index">Zones</a>
+                   <div class="dropdown-divider"></div>
+                   <h1 class="dropdown-header">Node components</h1>
+                   <a class="dropdown-item" asp-controller="NodePolicyGroup" asp-action="Index">Policy Group</a>
+                   <a class="dropdown-item" asp-controller="NodeZone" asp-action="Index">Zones</a>
+                   <div class="dropdown-divider"></div>
+                   <a class="dropdown-item" asp-controller="StartingReservoirLevel" asp-action="Index">Starting Reservoir Levels</a>
+               </div>
+           </li>
+           <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   <i class="fas fa-fw fa-folder"></i>
+                   <span>Data Maintenance</span>
+               </a>
+               <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                   <a class="dropdown-item" asp-controller="Node" asp-action="Index">Node</a>
+                   <a class="dropdown-item" asp-controller="Channel" asp-action="Index">Channel</a>
+                   <a class="dropdown-item" asp-controller="ClimateStation" asp-action="Index">Climate Stations</a>
+                   <a class="dropdown-item" asp-controller="RecordedFlowStation" asp-action="Index">Recorded Flow Stations</a>
+               </div>
+           </li>
+           <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   <i class="fas fa-fw fa-chart-area"></i>
+                   <span>Reporting Tools</span>
+               </a>
+               <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                   <a class="dropdown-item" asp-controller="ReportingTools" asp-action="Chart">Chart</a>
+                   <a class="dropdown-item" asp-controller="ReportingTools" asp-action="NodesDeficitTables">Nodes Deficit Tables</a>
+                   <a class="dropdown-item" asp-controller="ReportingTools" asp-action="ChannelsDeficitTables">Channels Deficit Tables</a>
+               </div>
+           </li>
+           <li class="nav-item">
+               <a class="nav-link" asp-controller="Node" asp-action="Index">
+                   <i class="fas fa-fw fa-info-circle"></i>
+                   <span>About</span>
+               </a>
+           </li>
+           <li class="nav-item">
+               <a class="nav-link" href="tables.html">
+                   <i class="fas fa-fw fa-envelope"></i>
+                   <span>Contact</span>
+               </a>
+
+           </li>
+           <li class="nav-item">
+               <a class="nav-link" asp-controller="Solver" asp-action="Index">
+                   <i class="fas fa-fw fa-chart-area"></i>
+                   <span>Solver</span>
+               </a>
+
+           </li>
+
+           <li class="nav-item">
+               <a class="nav-link" asp-controller="Logging" asp-action="Index">
+                   <i class="fas fa-fw fa-table"></i>
+                   <span>Solver Logger</span>
+               </a>
+
+           </li>
+
+           <li class="nav-item">
+               <a class="nav-link" asp-controller="Map" asp-action="Index">
+                   <i class="fas fa-fw fa-globe"></i>
+                   <span>Map</span>
+               </a>
+           </li>
+           @{ if (User.IsInRole("Admin"))
+               {
+                   <li class="nav-item">
+                       <a class="nav-link" asp-controller="Admin" asp-action="Index">
+                           <i class="fas fa-fw fa-user"></i>
+                           <span>Admin</span>
+                       </a>
+                   </li>
+               }}
+       </ul>
+
+      <!-- Navbar Search -->
+      <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+         <div class="input-group">
+         </div>
+      </form>
+      <!-- Navbar -->
+      <ul class="navbar-nav ml-auto ml-md-0">
+         @*<li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               <i class="fas fa-bell fa-fw"></i>
+               <span class="badge badge-danger">9+</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+               <a class="dropdown-item" href="#">Action</a>
+               <a class="dropdown-item" href="#">Another action</a>
+               <div class="dropdown-divider"></div>
+               <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+         </li>
+         <li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               <i class="fas fa-envelope fa-fw"></i>
+               <span class="badge badge-danger">7</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
+               <a class="dropdown-item" href="#">Action</a>
+               <a class="dropdown-item" href="#">Another action</a>
+               <div class="dropdown-divider"></div>
+               <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+         </li>*@
+         <li class="nav-item dropdown no-arrow">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               <i class="fas fa-user-circle fa-fw"></i>
+            </a>
+            @await Html.PartialAsync("_LoginPartial")
+         </li>
+         <li class="nav-item dropdown no-arrow">
+            @await Html.PartialAsync("_LogoutPartial")
+         </li>
+      </ul>
+   </nav>
+
+   <div id="wrapper">
+      <div id="content-wrapper">
+         <div class="container-fluid h-100">
+            @RenderBody()
+         </div>
+         <!-- /.container-fluid -->
+         <!-- Sticky Footer -->
+         <footer class="sticky-footer">
+            <div class="container my-auto">
+               <div class="copyright text-center my-auto">
+                   <span>WEB.BM © is owned by Optimal Solutions Ltd.</span>
+               </div>
+            </div>
+         </footer>
+
+      </div>
+      <!-- /.content-wrapper -->
+   </div>
+   @RenderSection("Scripts", false)
+
+   <script src="~/lib/js/jquery.easing.js"></script>
+   <script src="~/js/sb-admin.js"></script>
+
+</body>
+</html>

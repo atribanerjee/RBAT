@@ -1,0 +1,51 @@
+﻿@{
+    Layout = null;
+    ViewData["Title"] = ViewBag.title;
+}
+
+<div class="modal neModal" id="neModal" tabindex="-1" style="z-index : 1051">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><b>@ViewBag.title</b></h5>
+                <button type="button" class="close" onclick="neModalClose()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="neNodeID" value="@ViewBag.nodeID" />                
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label for="projectList">Node: @ViewBag.elementName</label>
+                    </div>
+                </div>
+                <div class="col-sm-12 text-center">
+                    <div id="neBadInputAlert" class="alert alert-danger fade show" style="display:none">
+                    </div>
+                    <div id="neSavedAlert" class="alert alert-success fade show" style="display:none">
+                    </div>
+                </div>
+                <table id="neTable" class="display compact" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>climateStationId</th>
+                            <th>climateStationName</th>
+                            <th>adjustmentFactor</th>
+                        </tr>
+                    </thead>                    
+                </table>
+                <div class="row">
+                    <div id="neButtonsBottom" class="col-sm-12 text-right">
+
+                    </div>
+                </div>
+                <div id="neDetailShowModal"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="neClose" type="button" class="btn btn-secondary" onclick="neModalClose()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="@Url.Content("~/js/NetEvaporation/NetEvaporation.js")"></script>

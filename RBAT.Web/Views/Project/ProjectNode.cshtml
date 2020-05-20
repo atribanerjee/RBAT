@@ -1,0 +1,23 @@
+﻿
+@{
+    Layout = null;
+}
+
+<input id="nodeProjectId" name="nodeProjectId" type="hidden" value="@ViewBag.nodeProjectId" />
+
+<table id="projectNodeTable" class="display compact" style="width: 100%">
+    <thead>
+        <tr>
+            <th>NodeId</th>
+            <th>Assigned</th>
+            <th>Name</th>
+            <th>Element Type</th>
+        </tr>
+    </thead>
+</table>
+<div class="row">
+    <div id="projectNodeTableButtonsBottom" class="col-sm-12 text-right">
+
+    </div>
+</div>
+<script src="@Url.Content( "~/js/project/ProjectNode.js" )"></script>

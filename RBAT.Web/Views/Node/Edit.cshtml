@@ -1,0 +1,60 @@
+﻿@using RBAT.Logic
+@inject DropDownService Options
+@{
+    Layout = null;
+}
+
+@model RBAT.Web.Models.Node.NodeModel
+
+<div class="modal" id="myModal" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Edit record</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editNodeForm">
+                    <input id="Id" type="hidden" name="Id" value="@Model.Id" />
+                    <input id="nodeTypeID" type="hidden" name="nodeTypeID" value="@Model.NodeTypeId" />
+                    <div class="form-group ">
+                        <input id="Name" type="text" class="form-control" placeholder="Name" name="Name" value="@Model.Name" />
+                    </div>
+                    <div class="form-group ">
+                        <input id="Description" type="text" class="form-control" name="Description" placeholder="Description" value="@Model.Description" />
+                    </div>
+                    @if (Model.NodeTypeId == 2)
+                    {
+                        <div class="form-group ">
+                            <input id="sizeOfIrrigatedAreaField" type="text" class="form-control" placeholder="Size Of Irrigated Area" name="SizeOfIrrigatedArea" value="@Model.SizeOfIrrigatedArea" />
+                        </div>
+                        <div class="form-group ">
+                            <input id="landUseFactorField" type="text" class="form-control" placeholder="Land Use Factor" name="LandUseFactor" value="@Model.LandUseFactor" />
+                        </div>
+                        @*<div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(m => m.EqualDeficits)
+                                Equal Deficits
+                            </label>
+                        </div>*@
+                        <div class="form-group ">
+                            Units of Measure:
+                            @Html.DropDownList("MeasuringUnitId",
+                                 Options.ListMeasuringUnits().Select(c => new SelectListItem() { Text = c.Name.ToString(), Value = c.Id.ToString() }),
+                                 null,
+                                 new { @class = "form-control" })
+                        </div>
+                    }
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="RbatApp.ModalForm.saveRecord('#editNodeForm','/Node/Update')">Save changes</button>
+                <button id="close" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>

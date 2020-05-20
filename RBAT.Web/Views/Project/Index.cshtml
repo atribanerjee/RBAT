@@ -1,0 +1,88 @@
+﻿@inject DropDownService Options
+@using Microsoft.Extensions.Options
+@using RBAT.Logic
+
+
+<div class="col-sm-12 text-center">
+    <div id="badInputAlert" class="alert alert-danger fade show" style="display:none">
+    </div>
+    <div id="savedAlert" class="alert alert-success fade show" style="display: none">
+    </div>
+</div>
+
+<h2>Project</h2>
+<table id="projectTable" class="display compact" style="width:100%">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>Name</th>
+            <th>Routing Option Type</th>
+            <th>Input Data Series Time Step</th>
+            <th>Calculation Begins</th>
+            <th>Calculation Ends</th>
+        </tr>
+    </thead>
+</table>
+<div class="row">
+    <div class="col-sm-6">
+        <button id="openScenario" type="button" class="btn btn-primary" onClick="openScenario()" style="visibility: hidden">Scenario</button>
+        <button id="openMap" type="button" class="btn btn-primary" onClick="openMap()" style="visibility: hidden">Map</button>
+    </div>
+    <div id="buttonsBottom" class="col-sm-6 text-right">
+
+    </div>
+</div>
+
+<div id="tabs" style="margin-top: 10px">
+    <ul>
+        <li><a href="#tabs-1">Nodes</a></li>
+        <li><a href="#tabs-2">Channels</a></li>
+    </ul>
+    <div id="tabs-1">
+        <div id="nodeDiv" class="col-lg-6">
+
+        </div>
+    </div>
+    <div id="tabs-2">
+        <div id="channelDiv" class="col-lg-6">
+
+        </div>
+    </div>    
+</div>
+<div id="overlay" class="d-none">
+    <img src="~/images/loader.gif" alt="Loading" /><br />
+    Loading...
+</div>
+
+<div id="showModal"></div>
+<script>
+    $.getScript("/js/project/project.js");
+</script>
+
+<script>
+    $(function () {
+        $("#tabs").tabs({
+            activate: function (event, ui) {
+                var r = $('table > tbody > tr.selected').index();
+                var previousRowId = $('#previousRow').val();
+                var $activeTab = $('#tabs').tabs('option', 'active');
+
+                if ($activeTab == 1) {
+                    if (r != previousRowId) {
+                        $.ajax({
+                            type: "GET",
+                            url: "/Project/ProjectChannel",
+                            data: {
+                                projectId: table.row(r).data()["id"]
+                            },
+                            success(data) {
+                                $("#channelDiv").html(data);
+                            }
+                        });
+                    }
+                }
+                $('#previousRow').val(r);
+            }
+        });
+    });
+</script>

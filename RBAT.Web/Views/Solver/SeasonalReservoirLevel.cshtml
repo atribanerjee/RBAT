@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = ViewBag.title;
+    Layout = null;
+}
+
+<h2>@ViewBag.title</h2>
+<div class="row">
+    <div id="srlButtons" class="col-sm-12 text-right">
+    </div>
+</div>
+<div class="col-sm-12 text-center">
+    <div id="srlBadInputAlert" class="alert alert-danger fade show" style="display:none">
+    </div>
+    <div id="srlSavedAlert" class="alert alert-success fade show" style="display:none">
+    </div>
+</div>
+<table id="seasonalReservoirLevelTable" class="display compact" style="width:100%">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Reservoir Name</th>
+            <th>Storage Level (m)</th>
+        </tr>
+    </thead>    
+</table>
+<div class="row">
+    <div id="srlButtonsBottom" class="col-sm-12 text-right">
+
+    </div>
+</div>
+<script>
+    $.getScript("/js/Solver/SeasonalReservoirLevel.js");
+</script>

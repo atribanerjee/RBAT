@@ -1,0 +1,31 @@
+﻿@{
+    Layout = null;
+}
+
+<h2>@ViewBag.title</h2>
+<input type="hidden" id="cpgPreviousRow" name="cpgPreviousRow" value="-1" />
+<table id="table" class="display compact" style="width:100%;">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>ScenarioID</th>
+            <th>ChannelTypeID</th>
+            <th style="width:55%">Name</th>
+            <th style="width:15%">ChannelType</th>
+            <th style="width:10%">Number Of Zones Above Ideal</th>
+            <th style="width:10%">Number Of Zones Below Ideal</th>
+            <th style="width:10%">Zone Weights Offset</th>
+        </tr>
+    </thead>    
+</table>
+<div class="row">
+    <div id="cpgButtonsBottom" class="col-sm-12 text-right">
+
+    </div>
+</div>
+<div id="cpgDetailShowModal"></div>
+
+<script>
+    var scenarioID = @ViewBag.scenarioID;
+    $.getScript("/js/ChannelPolicyGroup/ChannelPolicyGroup.js");
+</script>

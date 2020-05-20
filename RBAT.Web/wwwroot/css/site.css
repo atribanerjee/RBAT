@@ -1,0 +1,104 @@
+﻿/*body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}*/
+
+.hidden {
+    display:none;
+}
+.shown {
+    display:block;
+}
+.cursor-pointer {
+    cursor: pointer;
+}
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+/* Loading indicator overlay */
+#overlay {
+    background: rgba(192,192,192,0.3);
+    color: #666666;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    z-index: 5000;
+    top: 0;
+    left: 0;
+    float: left;
+    text-align: center;
+    padding-top: 25%;
+}
+
+/* Dygraph chart styles */
+#chart-container {
+    position: relative;
+    width: 60%;
+}
+
+.setup-input-width {
+    min-width: 300px;
+    width: 300px;
+    max-width: 300px;
+}
+
+.dygraph-chart {
+    position: absolute;
+    left: 1px;
+    right: 1px;
+    top: 1px;
+    bottom: 1px;
+    min-width: 100%;
+    max-height: 100%;
+}
+
+#chartLegend {
+    font-size: 14px;
+    line-height: 14px;
+    font-weight: bold;
+}
+
+.row-with-chart-legend {
+    height: 56px;
+}
+
+#setupcollapse {
+    position: relative;
+}
+
+#setupcollapse .setup {
+    background: #f1f1f1;
+    position: absolute;
+    z-index: 2000;
+    top: 0;
+    left: 0;
+    float: none;
+}

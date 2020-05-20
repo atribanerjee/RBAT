@@ -1,0 +1,67 @@
+﻿@using RBAT.Logic
+@inject DropDownService Options
+@{
+    Layout = null;
+}
+
+@model RBAT.Web.Models.ReportingTools.DeficitTableModel
+
+<div class="row">
+    <div class="col-12" id="chart-container" style="overflow-x: auto; white-space: nowrap;">
+        <table id="deficitTable" class="display" style="width:100%">
+            <thead>
+            <tr role="row">
+                @foreach (string rowList in Model.ColumnValue.First())
+                {
+                    <th>
+                        @rowList
+                    </th>
+                }
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (List<string> rowList in Model.ColumnValue.Skip(1))
+            {
+                <tr role="row">
+                    <td>@rowList.First()</td>
+
+                    @foreach (string value in rowList.Skip(1))
+                    {
+                        <td>
+                            @value
+                        </td>
+                    }
+                </tr>
+            }
+            </tbody>
+            <tfoot>
+            <tr role="row">
+                @foreach (string rowList in Model.ColumnValue.First())
+                {
+
+                    <th>
+                        @rowList
+                    </th>
+                }
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#deficitTable').DataTable( {
+            dom: 'Bfrtip',
+            processing: true,
+            ordering: true,
+            searching: false,
+            paging: false,
+            buttons: [
+                'copyHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ]
+        } );
+
+    } );
+</script>

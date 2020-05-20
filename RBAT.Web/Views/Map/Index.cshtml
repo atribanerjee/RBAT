@@ -1,0 +1,91 @@
+﻿@using RBAT.Logic
+@inject DropDownService Options
+@{
+    ViewData["Title"] = "Map";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #nodes li:not(.disabled):hover {
+        cursor: pointer;
+    }
+
+    #channels li:not(.disabled):hover {
+        cursor: pointer;
+    }
+    
+    /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+    #map {
+        height: calc(100vh - 220px);
+    }
+
+    #listsContainer {
+        overflow-y: auto;
+        max-height: calc(100vh - 220px);
+    }
+
+    .contextmenu {
+        background-color: #fff;
+    }
+</style>
+
+<div class="col-sm-12 text-center">
+    <div id="badInputAlert" class="alert alert-danger fade show" style="display:none">
+    </div>
+    <div id="savedAlert" class="alert alert-success fade show" style="display:none">
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2">
+            <h2>Map</h2>
+        </div>
+        <div class="col-2">
+            <ul class="nav nav-pills" id="actionMenu">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" id="saveButton">Save</a>
+                </li>
+                <li class="nav-item ml-2">
+                    <a class="nav-link active" href="#" id="editButton">Edit Mode</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-8">
+            <div class="form-check pl-0">
+                <input type="checkbox" class="form-check-input" id="showAllNames">
+                <label class="form-check-label" for="showAllNames">Show All Names</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div id="listsContainer" class="col-2 align-items-start">
+            <div class="form-group">
+                <label for="projectList">Projects:</label>
+                @Html.DropDownList("ProjectID",
+                    Options.ListProjects().Select(c => new SelectListItem() { Text = c.Name.ToString(), Value = c.Id.ToString(), Selected = c.Id == @Model.ProjectId }),
+                    "Select Project", new {  @class = "form-control", id = "projectList" })
+            </div>
+            <h4>Nodes</h4>
+            <ul class="list-group" id="nodes">
+            </ul>
+            <h4>Channels</h4>
+            <ul class="list-group" id="channels">
+            </ul>
+            <div class="form-group" id="radiusSection">
+                <label for="circleRadius">Default Junction Radius (m):</label>
+                <input type="text" class="form-control" id="circleRadius" value="10000">
+            </div>
+        </div>
+        <div class="col-10">
+            <div id="map"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyC44apKF_CBPCpd9O2M2eQzhd1CHWk8QJU&libraries=geometry&libraries=drawing"></script>
+<script src="@Url.Content( "~/js/Map/Map.js" )"></script>

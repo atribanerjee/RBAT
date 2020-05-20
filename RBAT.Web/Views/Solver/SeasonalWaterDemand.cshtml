@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = ViewBag.title;
+    Layout = null;
+}
+
+<h2>@ViewBag.title</h2>
+<div class="row">
+    <div id="swdButtons" class="col-sm-12 text-right">
+    </div>
+</div>
+<div class="col-sm-12 text-center">
+    <div id="swdBadInputAlert" class="alert alert-danger fade show" style="display:none">
+    </div>
+    <div id="swdSavedAlert" class="alert alert-success fade show" style="display:none">
+    </div>
+</div>
+<table id="seasonalWaterDemandTable" class="display compact" style="width:100%">    
+</table>
+<div class="row">
+    <div id="swdButtonsBottom" class="col-sm-12 text-right">
+
+    </div>
+</div>
+<script>
+    $.getScript("/js/Solver/SeasonalWaterDemand.js");
+</script>

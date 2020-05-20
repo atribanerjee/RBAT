@@ -1,0 +1,116 @@
+﻿@model IEnumerable<RBAT.Core.Clasess.TimeSeriesItem>
+@using RBAT.Core.Clasess
+@using RBAT.Logic
+@inject DropDownService Options
+
+@{
+    Layout = null;
+    ViewData["Title"] = ViewBag.title;
+}
+
+<div class="modal tsdModal" id="tsdModal" tabindex="-1" style="z-index : 1051">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><b>@ViewBag.title</b></h5>
+                <button type="button" class="close" onclick="tsdModalClose()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="tsdElementID" value="@ViewBag.elementID" />
+                <input type="hidden" id="controllerName" value="@ViewBag.controllerName" />
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div id="divNode" class="col-sm-12">
+                                <label>Node: @ViewBag.elementName</label>
+                            </div>
+                        </div>
+                        <div id="divRecordedFlowStation" class="row" style="display:none;">
+                            <div class="col-sm-12">
+                                <label>Recorded Flow Station: @ViewBag.elementName</label>
+                            </div>
+                        </div>
+                        <div id="divProjectID" class="row" style="display:none;">
+                            <div class="col-sm-12">
+                                <label for="projectList">Node's Projects:</label>
+                                @Html.DropDownList("tsdProjectID",
+                                                   Options.ListProjects((int)ViewBag.elementID).Select(c => new SelectListItem() { Text = c.Name, Value = c.Id.ToString() }),
+                                                   null, new { @onchange = "tsdProjectChanged()" })
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:15px;">
+                            <div class="col-sm-12">
+                                <label for="surveyDate">Start Import Date: </label>
+                                <div class="input-group date" data-provide="datepicker">
+                                    <input id="startImportDate" name="startImportDate" data-date-format="YYYY/MM/DD" type="text" value="01/01/1900">
+                                    <div class="input-group-addon">
+                                        <i class="fas fa-calendar-alt fa-fw" style="line-height: 1em; font-size: 18px; top: 1px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group ml-4">
+                            <button id="showImportButton" class="btn btn-primary">Import from Excel</button>
+                            <input id="fileSelect" name="fileSelect" class="form-control-file import invisible mb-1 mt-2" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                            <button id="importButton" type="button" class="btn btn-default disabled import invisible">Import</button>
+                            <button id="cancelImportButton" type="button" class="btn btn-default import invisible">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 btn-group" id="timeComponentGroup">
+                        @foreach (TimeComponent timeComponent in Enum.GetValues(typeof(TimeComponent)))
+                        {
+                            <label class="btn btn-primary">
+                                <input type="radio" asp-for="@timeComponent" id="@timeComponent" value="@timeComponent"
+                                       onchange="tsdReloadTableForSelectedTimeComponent()">
+                                @timeComponent
+                            </label>
+                        }
+                    </div>
+                    <div id="tsdButtons" class="col-sm-6 text-right">
+                    </div>
+                </div>
+                <div class="col-sm-12 text-center">
+                    <div id="tsdBadInputAlert" class="alert alert-danger fade show" style="display:none">
+                    </div>
+                    <div id="tsdSavedAlert" class="alert alert-success fade show" style="display:none">
+                    </div>
+                </div>
+                <table id="tsdTable" class="display compact" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Id)</th>
+                            <th>@Html.DisplayNameFor(model => model.Year)</th>
+                            <th name="TimeComponentType"></th>
+                            <th>@ViewBag.title</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div class="row">
+                    <div id="tsdButtonsBottom" class="col-sm-12 text-right">
+
+                    </div>
+                </div>
+                <div id="tsdDetailShowModal"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="tsdClose" type="button" class="btn btn-secondary" onclick="tsdModalClose()">Close</button>
+            </div>
+            <div id="overlay" class="d-none">
+                <img src="~/images/loader.gif" alt="Loading" /><br />
+                Loading...
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="@Url.Content("~/lib/js/dataTables.scroller.min.js")"></script>
+<script src="@Url.Content("~/lib/js/scroller.bootstrap4.min.js")"></script>
+
+<script src="@Url.Content("~/js/TimeSeriesDataTables/TimeSeriesDataTables.js")"></script>

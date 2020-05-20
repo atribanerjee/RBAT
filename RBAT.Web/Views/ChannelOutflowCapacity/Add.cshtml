@@ -1,0 +1,51 @@
+﻿@{
+    Layout = null;
+}
+<div class="modal" id="cocAddModal" tabindex="-1" style="z-index : 1052">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new record</h5>
+                <button type="button" class="close" onclick="cocAddModalClose()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input id="cocDetailElementID" type="hidden" value="@ViewBag.elementID" />                
+                <div class="form-group ">
+                    <input id="cocDetailElevation" type="text" class="form-control" placeholder="Elevation (m)" />
+                </div>
+                <div class="form-group ">
+                    <input id="cocDetailMaximumOutflow" type="text" class="form-control" placeholder="Maximum Outflow (m3/s)" />
+                </div>               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="cocDetailAddRecord()">Save changes</button>
+                <button id="cocDetailClose" type="button" class="btn btn-secondary" onclick="cocAddModalClose()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function cocDetailAddRecord(e, dt, bt, config) {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "ChannelOutflowCapacity/AddNew",
+            data: {                
+                elementID: document.getElementById("cocDetailElementID").value,                
+                elevation: document.getElementById("cocDetailElevation").value,
+                maximumOutflow: document.getElementById("cocDetailMaximumOutflow").value               
+            },
+            success: function (response) {
+                cocTable.draw();
+                document.getElementById("cocDetailClose").click();
+            }
+        })
+    }
+
+    function cocAddModalClose() {
+        $('#cocAddModal').modal('hide');
+    }
+</script>

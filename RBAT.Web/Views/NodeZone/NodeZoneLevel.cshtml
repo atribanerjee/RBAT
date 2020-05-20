@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = ViewBag.title;
+    Layout = null;
+}
+
+@model RBAT.Core.Models.NodeZoneLevelHistoricReservoirLevel
+
+<h2>@ViewBag.title</h2>
+<input type="hidden" id="nzlNodePolicyGroupID" value="@ViewBag.nodePolicyGroupID" />
+<input type="hidden" id="nzlNodeID" value="@ViewBag.nodeID" />
+<input type="hidden" id="nzlNodeTypeID" value="@ViewBag.nodeTypeID" />
+<input type="hidden" id="nzlNumberOfZonesAbove" value="@ViewBag.numberOfZonesAbove" />
+<input type="hidden" id="nzlNumberOfZonesBelow" value="@ViewBag.numberOfZonesBelow" />
+<div class="col-sm-12" id="divUseHistoricReservoirLevels" style="visibility:hidden">
+    <input type="checkbox" id="chkUseHistoricReservoirLevels" name="chkUseHistoricReservoirLevels" onchange="useHistoricReservoirLevelsChanged()" asp-for="@Model.UseHistoricReservoirLevels" >
+    <label for="chkUseHistoricReservoirLevels">Use Historic Reservoir Levels for Zone ↓ 1</label>
+</div>
+<div class="row">
+    <div class="col-sm-6 btn-group" data-toggle="buttons">
+    </div>
+    <div id="nzlButtons" class="col-sm-6 text-right">
+    </div>
+</div>
+<div class="col-sm-12 text-center">
+    <div id="nzlBadInputAlert" class="alert alert-danger fade show" style="display:none">
+    </div>
+    <div id="nzlSavedAlert" class="alert alert-success fade show" style="display:none">
+    </div>
+</div>
+<div id="nzlTableWrapper" style="display:none">
+    <table id="nzlTable" class="display compact" style="width:100%">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Year</th>
+                <th>Julian Day</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 6</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 5</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 4</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 3</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 2</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 1</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 1</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 2</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 3</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 4</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 5</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 6</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 7</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 8</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 9</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 10</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<div class="row">
+    <div id="nzlButtonsBottom" class="col-sm-12 text-right">
+
+    </div>
+</div>
+<div id="nzlShowModal"></div>
+
+<script>
+    $.getScript("/js/NodeZone/NodeZoneLevel.js");
+</script>

@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = ViewBag.title;
+}
+
+<h2>@ViewBag.title</h2>
+<div class="col-sm-12 text-center">
+    <div id="badInputAlert" class="alert alert-danger fade show" style="display:none">
+    </div>
+    <div id="savedAlert" class="alert alert-success fade show" style="display:none">
+    </div>
+</div>
+<table id="channelTable" class="display compact" style="width:100%">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Id</th>
+            <th>ChannelTypeId</th>
+            <th>Name</th>
+            <th>Channel Type</th>            
+            <th>% Return Flow</th>
+        </tr>
+    </thead>    
+</table>
+<div class="row">
+    <div id="buttonsBottom" class="col-sm-12 text-right">
+
+    </div>
+</div>
+<div id="showModal"></div>
+<div id="cocShowModal"></div>
+<div id="cttShowModal"></div>
+<div id="tsdShowModal"></div>
+
+<div id="overlay" class="d-none">
+    <img src="~/images/loader.gif" alt="Loading" /><br />
+    Loading...
+</div>
+
+<script src="@Url.Content("~/js/Channel/Channel.js")"></script>
+<style>
+    #channelTable {
+        clear: both;
+        word-wrap: break-word;
+    }
+
+        #channelTable td.details-control {
+            background: url('/images/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        #channelTable tr.shown td.details-control {
+            background: url('/images/details_close.png') no-repeat center center;
+        }
+</style>

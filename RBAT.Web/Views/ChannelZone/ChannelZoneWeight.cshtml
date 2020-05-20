@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = ViewBag.title;
+    Layout = null;
+}
+
+<h2>@ViewBag.title</h2>
+<input type="hidden" id="czwChannelPolicyGroupID" value="@ViewBag.channelPolicyGroupID" />
+<input type="hidden" id="czwNumberOfZonesAbove" value="@ViewBag.numberOfZonesAbove" />
+<input type="hidden" id="czwNumberOfZonesBelow" value="@ViewBag.numberOfZonesBelow" />
+<div class="row">
+    <div class="col-sm-6 btn-group" data-toggle="buttons">
+    </div>
+    <div id="czwButtons" class="col-sm-6 text-right">
+    </div>
+</div>
+<div class="col-sm-12 text-center">
+    <div id="czwBadInputAlert" class="alert alert-danger fade show" style="display:none">
+    </div>
+    <div id="czwSavedAlert" class="alert alert-success fade show" style="display:none">
+    </div>
+</div>
+<div id="czwTableWrapper" style="display:none">
+    <table id="czwTable" class="display compact" style="width:100%">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 6</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 5</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 4</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 3</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 2</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 1</th>
+                <th>Ideal Zone</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 1</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 2</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 3</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 4</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 5</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 6</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 7</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 8</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 9</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 10</th>
+            </tr>
+        </thead>        
+    </table>
+</div>
+<div class="row">
+    <div id="czwButtonsBottom" class="col-sm-12 text-right">
+
+    </div>
+</div>
+<div id="czwShowModal"></div>
+
+<script>
+    $.getScript("/js/ChannelZone/ChannelZoneWeight.js");
+</script>

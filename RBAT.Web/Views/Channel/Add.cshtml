@@ -1,0 +1,291 @@
+﻿@using RBAT.Logic
+@inject DropDownService Options
+
+@{
+    Layout = null;
+}
+
+@model RBAT.Web.Models.Channel.ChannelModel
+
+
+<div class="modal" id="myModal" tabindex="-1">
+    <div class="modal-dialog" role="document" style="max-width: 1000px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new record</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="channelForm">
+                    <div style="width:48%; float:left;">
+                        <div class="form-group ">
+                            <input id="nameField" type="text" class="form-control" placeholder="Name" name="Name" value="@Model.Name" />
+                        </div>
+                        <div class="form-group ">
+                            <input id="descriptionField" type="text" class="form-control" placeholder="Description" name="Description" value="@Model.Description" />
+                        </div>
+                        <div class="form-group ">
+                            Channel Type:
+                            @Html.DropDownListFor(m => m.ChannelTypeId,
+                        Options.ListChannelTypes().Select(c => new SelectListItem() { Text = c.Name, Value = c.Id.ToString() }),
+                              null,
+                              new { @class = "form-control" })
+                        </div>
+                        <div class="form-group ">
+                            Upstream Node:
+                            @Html.DropDownListFor(m => m.UpstreamNodeID,
+                              Options.ListNodes().Select(c => new SelectListItem() { Text = c.Name, Value = c.Id.ToString() }),
+                              "Please select one",
+                              new { @class = "form-control" })
+                        </div>
+                        <div class="form-group ">
+                            Downstream Node:
+                            @Html.DropDownListFor(m => m.DownstreamNodeID,
+                              Options.ListNodes().Select(c => new SelectListItem() { Text = c.Name, Value = c.Id.ToString() }),
+                              "Please select one",
+                              new { @class = "form-control" })
+                        </div>
+                        <div id="UpstreamNodeWithControlStructurediv" class="form-group ">
+                            Upstream Node With Control Structure:
+                            @Html.DropDownListFor(m => m.UpstreamNodeWithControlStructureID,
+                              Options.ListNodes().Select(c => new SelectListItem() { Text = c.Name, Value = c.Id.ToString() }),
+                              "Please select one",
+                              new { @class = "form-control" })
+                        </div>
+                        <div id="UpstreamChannelWithControlStructurediv" class="form-group ">
+                            Upstream Channel With Control Structure:
+                            @Html.DropDownListFor(m => m.UpstreamChannelWithControlStructureID,
+                              Options.ListNonReturnFlowChannels(Model.Id).Select(c => new SelectListItem() { Text = c.Name, Value = c.Id.ToString() }),
+                              "Please select one",
+                              new { @class = "form-control" })
+                        </div>
+                        <div id="HasRecordedFlowStationDiv" class="form-group ">
+                            <input @(Convert.ToBoolean(Model.PercentReturnFlow) == false ? "checked='checked'" : string.Empty) type="checkbox" id="CheckHasRecordedFlowStation" />
+
+                            <label for="HasRecordedFlowStation">
+                                Has Recorded Flow Station
+                            </label> <br />
+                        </div>
+
+                        <div id="RecordedFlowStationFieldDiv" class="form-group ">
+                            Recorded Flow Station:
+                            @Html.DropDownListFor(m => m.RecordedFlowStationID,
+                                Options.ListRecordedFlowStations().Select(c => new SelectListItem() { Text = c.Name, Value = c.Id.ToString() }),
+                                "Please select one",
+                                new { @class = "form-control" })
+                        </div>
+                        <div id="sakrijcheck" class="checkbox">
+                            <label id="routingoptionlabel">
+                                <input id="routingOptionUseField" type="checkbox" />
+                                Routing Option Use
+                            </label>
+                        </div>
+
+                        <div id="apportionmentFlowTargetDiv" class="form-group">
+                            <input id="ApportionmentFlowTargetField" type="text" class="form-control" placeholder="Fraction of Nat. Flow as per Apport. Agreement" name="ApportionmentFlowTarget" value="@Model.ApportionmentFlowTarget" />
+                        </div>
+                        <div id="referenceNodeDiv" class="form-group ">
+                            Reference Node For Apportionment Agreement:
+                            @Html.DropDownListFor(m => m.ReferenceNodeID,
+                                Options.ListReferenceNodes().Select(c => new SelectListItem() { Text = c.Name, Value = c.Id.ToString() }),
+                                "Please select one",
+                                new { @class = "form-control" })
+                        </div>
+                    </div>                    
+                    <div style="width: 48%; float: right;">
+                        <div class="form-group">
+                            Hydro Power Plant Data
+                        </div>
+                        <div id="hydroPowerPlantDiv">
+                            <div id="ratedPowerDiv" class="form-group">
+                                <input id="ratedPowerField" type="text" class="form-control" placeholder="Rated Power (MW)" name="RatedPower" value="@Model.RatedPower" />
+                            </div>
+
+                            <div id="overallHydroPowerPlantEfficiencyDiv" class="form-group">
+                                <input id="overallHydroPowerPlantEfficiencyField" type="text" class="form-control" placeholder="Overall Hydro Power Plant Efficiency (0.7 – 0.85)" name="OverallHydroPowerPlantEfficiency" value="@Model.OverallHydroPowerPlantEfficiency" />
+                            </div>
+                            <div id="constantHeadWaterLevelDiv" class="form-group">
+                                <input id="constantHeadWaterLevelField" type="text" class="form-control" placeholder="Constant Head Water Level (m)" name="ConstantHeadWaterLevel" value="@Model.ConstantHeadWaterLevel" />
+                            </div>
+                            <div class="form-group ">
+                                Upstream Reservoir Head Water Elevation (m):
+                                @Html.DropDownListFor(m => m.UpstreamReservoirHeadWaterElevationID,
+                                    Options.ListReservoirs().Select(c => new SelectListItem() {Text = c.Name, Value = c.Id.ToString()}),
+                                    "Please select one",
+                                    new {@class = "form-control"})
+                            </div>
+                            <div class="form-group ">
+                                Upstream Channel Head Water Elevation (m):
+                                @Html.DropDownListFor(m => m.UpstreamChannelHeadWaterElevationID,
+                                    Options.ListNonReturnFlowChannels(Model.Id).Select(c => new SelectListItem() {Text = c.Name, Value = c.Id.ToString()}),
+                                    "Please select one",
+                                    new {@class = "form-control"})
+                            </div>
+                            <div id="constantTailWaterLevelDiv" class="form-group">
+                                <input id="constantTailWaterLevelField" type="text" class="form-control" placeholder="Constant Tail Water Level (m)" name="ConstantTailWaterLevel" value="@Model.ConstantTailWaterLevel" />
+                            </div>
+                            <div class="form-group ">
+                                Downstream Reservoir Tail Water Elevation (m):
+                                @Html.DropDownListFor(m => m.DownstreamReservoirTailWaterElevationID,
+                                    Options.ListReservoirs().Select(c => new SelectListItem() {Text = c.Name, Value = c.Id.ToString()}),
+                                    "Please select one",
+                                    new {@class = "form-control"})
+                            </div>
+                            <div class="form-group ">
+                                Downstream Channel Tail Water Elevation (m):
+                                @Html.DropDownListFor(m => m.DownstreamChannelTailWaterElevationID,
+                                    Options.ListNonReturnFlowChannels(Model.Id).Select(c => new SelectListItem() {Text = c.Name, Value = c.Id.ToString()}),
+                                    "Please select one",
+                                    new {@class = "form-control"})
+                            </div>
+                        </div>
+
+                        <div id="percentReturnFlowFieldDiv" class="form-group">
+                            <input id="percentReturnFlowField" type="text" class="form-control" placeholder="Return Flow Fraction" name="PercentReturnFlow" value="@Model.PercentReturnFlow"/>
+                        </div>
+                        <div id="totalLicensedVolumeDiv" class="form-group">
+                            <input id="TotalLicensedVolumeField" type="text" class="form-control" placeholder="Total Licensed Volume (1000 m3)" name="TotalLicensedVolume" value="@Model.TotalLicensedVolume"/>
+                        </div>
+                       
+                        <div id="routingCoefficientAFieldDiv" class="form-group ">
+                            <input id="routingCoefficientAField" type="text" class="form-control" placeholder="Routing Coefficient A" name="RoutingCoefficientA" value="@Model.RoutingCoefficientA"/>
+                        </div>
+                        <div id="routingCoefficientNFieldDiv" class="form-group ">
+                            <input id="routingCoefficientNField" type="text" class="form-control" placeholder="Routing Coefficient N" name="RoutingCoefficientN" value="@Model.RoutingCoefficientN"/>
+                        </div>
+                        <div id="numberOfRoutingPhasesFieldDiv" class="form-group ">
+                            <input id="numberOfRoutingPhasesField" type="text" class="form-control" placeholder="Number Of Routing Phases" name="NumberOfRoutingPhases" value="@Model.NumberOfRoutingPhases"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="RbatApp.ModalForm.saveRecord('#channelForm','/Channel/AddNew')">Save changes</button>
+                <button id="close" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    showHideRiverReachFields();
+    showHideDiversionChannelFields();
+    showHideReturnFlowFields();
+    hasRecordedFlowStation();
+
+
+    $('#ChannelTypeId').change(function () {
+        showHideRiverReachFields();
+        showHideDiversionChannelFields();
+        showHideReturnFlowFields();
+    })
+    $('#CheckHasRecordedFlowStation').change(function () {
+        hasRecordedFlowStation();
+        
+    })
+
+
+    function showHideRiverReachFields() {
+        if (document.getElementById('ChannelTypeId').value === '1') {
+            document.getElementById('routingCoefficientAFieldDiv').style.display = "block";
+            document.getElementById('routingCoefficientNFieldDiv').style.display = "block";
+            document.getElementById('numberOfRoutingPhasesFieldDiv').style.display = "block";
+            document.getElementById('apportionmentFlowTargetDiv').style.display = "block";
+            document.getElementById('referenceNodeDiv').style.display = "block";
+            document.getElementById('HasRecordedFlowStationDiv').style.display = "none";
+        } else {
+            document.getElementById('routingCoefficientAFieldDiv').style.display = "none";
+            document.getElementById('routingCoefficientAField').value = null;
+            document.getElementById('routingCoefficientNFieldDiv').style.display = "none";
+            document.getElementById('routingCoefficientNField').value = null;
+            document.getElementById('numberOfRoutingPhasesFieldDiv').style.display = "none";
+            document.getElementById('numberOfRoutingPhasesField').value = null;
+            document.getElementById('apportionmentFlowTargetDiv').style.display = "none";
+            document.getElementById('ApportionmentFlowTargetField').value = null;
+            document.getElementById('referenceNodeDiv').style.display = "none";
+            document.getElementById('ReferenceNodeID').value = "";
+        }
+    }
+
+    function showHideDiversionChannelFields() {
+        if (document.getElementById('ChannelTypeId').value === '2') {
+            document.getElementById('totalLicensedVolumeDiv').style.display = "block";
+            document.getElementById('sakrijcheck').style.display = "none";
+            document.getElementById('routingOptionUseField').checked = false;
+            document.getElementById('routingoptionlabel').style.display = "none";
+            document.getElementById('HasRecordedFlowStationDiv').style.display = "none";
+            //document.getElementById('RecordedFlowStationFieldDiv').style.display = "none";
+            //document.getElementById('RecordedFlowStationID').value = "";
+
+        } else {
+            document.getElementById('totalLicensedVolumeDiv').style.display = "none";
+            document.getElementById('TotalLicensedVolumeField').value = null;
+            document.getElementById('sakrijcheck').style.display = "block";
+           // document.getElementById('RecordedFlowStationFieldDiv').style.display = "block";
+            document.getElementById('routingoptionlabel').style.display = "block";
+        }
+    }
+
+    function showHideReturnFlowFields() {
+        if (document.getElementById('ChannelTypeId').value === '3') {
+            document.getElementById('percentReturnFlowFieldDiv').style.display = "block";
+            document.getElementById('HasRecordedFlowStationDiv').style.display = "block";
+            document.getElementById('hydroPowerPlantDiv').style.display = "none";
+            document.getElementById('overallHydroPowerPlantEfficiencyField').value = null;
+            document.getElementById('constantHeadWaterLevelField').value = null;
+            document.getElementById('UpstreamReservoirHeadWaterElevationID').value = "";
+            document.getElementById('UpstreamChannelHeadWaterElevationID').value = "";
+            document.getElementById('constantTailWaterLevelField').value = null;
+            document.getElementById('DownstreamReservoirTailWaterElevationID').value = "";
+            document.getElementById('DownstreamChannelTailWaterElevationID').value = "";
+            document.getElementById('UpstreamNodeWithControlStructurediv').style.display = "none";
+            document.getElementById('UpstreamNodeWithControlStructureID').value = "";
+            document.getElementById('UpstreamChannelWithControlStructurediv').style.display = "none";
+            document.getElementById('UpstreamChannelWithControlStructureID').value = "";
+            document.getElementById('sakrijcheck').style.display = "none";
+            document.getElementById('routingOptionUseField').checked = false;
+
+            //Show RecordedFlowStation for Return flow
+            document.getElementById('RecordedFlowStationFieldDiv').style.display = "block";
+ 
+
+        } else {
+            document.getElementById('percentReturnFlowFieldDiv').style.display = "none";
+            document.getElementById('percentReturnFlowField').value = null;
+
+            document.getElementById('hydroPowerPlantDiv').style.display = "block";
+            document.getElementById('UpstreamNodeWithControlStructurediv').style.display = "block";
+            document.getElementById('UpstreamChannelWithControlStructurediv').style.display = "block";
+            document.getElementById('sakrijcheck').style.display = "block";
+
+            document.getElementById('RecordedFlowStationFieldDiv').style.display = "none";
+            document.getElementById('RecordedFlowStationID').value = null;
+        }
+    }
+    function hasRecordedFlowStation() {
+        var checkBox = document.getElementById('CheckHasRecordedFlowStation');
+
+        document.getElementById('percentReturnFlowField').disabled = checkBox.checked;
+        document.getElementById('RecordedFlowStationID').disabled = !checkBox.checked;
+    }
+
+    $('#UpstreamNodeWithControlStructureID').change(function () {
+        disableUpstreamChannelWithControlStructure();
+    })
+
+    $('#UpstreamChannelWithControlStructureID').change(function () {
+        disableUpstreamNodeWithControlStructure();
+    })
+
+    function disableUpstreamChannelWithControlStructure() {
+        document.getElementById('UpstreamChannelWithControlStructureID').disabled = (document.getElementById('UpstreamNodeWithControlStructureID').value);
+    }
+
+    function disableUpstreamNodeWithControlStructure() {
+        document.getElementById('UpstreamNodeWithControlStructureID').disabled = (document.getElementById('UpstreamChannelWithControlStructureID').value);
+    }
+
+
+</script>

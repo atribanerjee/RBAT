@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = ViewBag.title;
+    Layout = null;
+}
+
+<h2>@ViewBag.title</h2>
+<div class="row">
+    <div id="sdlButtons" class="col-sm-12 text-right">
+    </div>
+</div>
+<div class="col-sm-12 text-center">
+    <div id="sdlBadInputAlert" class="alert alert-danger fade show" style="display:none">
+    </div>
+    <div id="sdlSavedAlert" class="alert alert-success fade show" style="display:none">
+    </div>
+</div>
+<table id="seasonalDiversionLicenseTable" class="display compact" style="width:100%">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th style="width: 34%">Diversion Channel Name</th>
+            <th style="width: 33%">Remaining Water to be Diverted (m^3)</th>
+            <th style="width: 33%">Max Instantaneous Flow Rate (m^3/s)</th>
+        </tr>
+    </thead>    
+</table>
+<div class="row">
+    <div id="sdlButtonsBottom" class="col-sm-12 text-right">
+
+    </div>
+</div>
+
+<script>
+    $.getScript("/js/Solver/SeasonalDiversionLicense.js");
+</script>

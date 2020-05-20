@@ -1,0 +1,6 @@
+﻿@model IEnumerable<RBAT.Core.Models.TimeWaterUse>
+
+@{
+    Layout = null;
+}
+@await Html.PartialAsync("_TimeSeriesDataTables", Model)

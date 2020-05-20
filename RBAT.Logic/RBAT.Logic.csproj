@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RBAT.Core\RBAT.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Interface">
+      <HintPath>..\lib\Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="RBATDBWrapper">
+      <HintPath>..\lib\RBATDBWrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <HintPath>System</HintPath>
+    </Reference>
+    <Reference Include="WRMMSolver">
+      <HintPath>..\lib\WRMMSolver.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Helper\" />
+  </ItemGroup>
+
+</Project>

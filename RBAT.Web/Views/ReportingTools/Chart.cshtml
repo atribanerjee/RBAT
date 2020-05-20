@@ -1,0 +1,161 @@
+﻿@using RBAT.Logic
+@using RBAT.Web.Models.ReportingTools
+@using RBAT.Web.Extensions
+@inject DropDownService Options
+@{
+    ViewData["Title"] = "Chart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .content-container {
+        height: calc(100% - 15px);
+    }
+</style>
+
+<div class="row row-with-chart-legend">
+
+    <div class="col-1">
+        <h2>Chart</h2>
+    </div>
+    <div class="col-3 form-inline p-0">
+        <button id="openSetupButton" class="btn btn-dark btn-sm mr-1" type="button">
+            <i id="iconDown" class="fas fa-chevron-down mr-1"></i>
+            Setup
+        </button>
+        <button id="closeSetupButton" class="btn btn-dark btn-sm mr-1 hidden" type="button">
+            <i id="iconUp" class="fas fa-chevron-up mr-1"></i>
+            Setup
+        </button>
+        <button type="button" class="btn btn-primary btn-sm mr-1" id="refreshButton">
+            <i class="fas fa-redo-alt mr-1"></i>
+            Refresh Chart
+        </button>
+        <button type="button" class="btn btn-primary btn-sm mr-1" id="downloadButton">
+            <i class="fas fa-download mr-1"></i>
+            Download Data
+        </button>
+        <button type="button" class="btn btn-primary btn-sm" id="downloadImageButton">
+            <i class="fas fa-image mr-1"></i>
+            Save Image
+        </button>
+    </div>
+
+    <div class="col-8 form-inline">
+        <div class="form-group input-group-sm mr-4">
+            <strong>
+                <label for="chartType" class="mr-2">Chart type:</label>
+            </strong>
+            <select class="form-control" id="chartType">
+                <option value="@ChartType.TimeSeries">@EnumExtensions.GetDisplayName(ChartType.TimeSeries)</option>
+                <option value="@ChartType.Stepped">@ChartType.Stepped</option>
+                <option value="@ChartType.Exceedence">@ChartType.Exceedence</option>
+            </select>
+        </div>
+
+        <div id="chartLegend"></div>
+
+    </div>
+</div>
+<div class="row collapse" id="setupcollapse">
+    <div class="col setup pt-1">
+        <div class="row mb-1">
+            <div class="col form-inline">
+
+                <div class="form-group mr-4 exceedenceDate" style="display: none;">
+                    <strong>
+                        <label for="startDate" class="mr-2">Start Date:</label>
+                    </strong>
+                    <div class="input-group input-group-sm date" data-provide="datepicker">
+                        <input id="startDate" data-date-format="YYYY/MM/DD" type="text" class="form-control">
+                        <div class="input-group-addon">
+                            <i class="fas fa-calendar-alt fa-fw" style="line-height: 1em; font-size: 18px; top: 1px;"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mr-4 exceedenceDate" style="display: none;">
+                    <strong>
+                        <label for="endDate" class="mr-2">End Date:</label>
+                    </strong>
+                    <div class="input-group input-group-sm date" data-provide="datepicker">
+                        <input id="endDate" data-date-format="YYYY/MM/DD" type="text" class="form-control">
+                        <div class="input-group-addon">
+                            <i class="fas fa-calendar-alt fa-fw" style="line-height: 1em; font-size: 18px; top: 1px;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col form-inline">
+
+                <div class="form-group input-group-sm mr-4">
+                    <strong>
+                        <label for="projectList" class="mr-2">Project:</label>
+                    </strong>
+                    @Html.DropDownList("ProjectID",
+                        Options.ListProjects().Select(c => new SelectListItem() { Text = c.Name.ToString(), Value = c.Id.ToString(), Selected = c.Id == @Model.ProjectId }),
+                        "Select Project", new {  @class = "form-control setup-input-width", id = "projectList" })
+                </div>
+
+                <div class="form-group input-group-sm mr-4">
+                    <strong>
+                        <label for="scenarios" class="mr-2">Scenario:</label>
+                    </strong>
+                    <select class="form-control setup-input-width" id="scenarios"></select>
+                    <ul class="list-group" id="scenarios"></ul>
+                </div>
+
+                <div class="form-group input-group-sm mr-4">
+                    <strong>
+                        <label for="nodesOrChannels" class="mr-2">Component:</label>
+                    </strong>
+                    <select class="form-control setup-input-width" id="component"></select>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="simulatedCheckbox" value="@SolutionValueType.Optimal" data-name="@EnumExtensions.GetDisplayName(SolutionValueType.Optimal)" checked>
+                    <label class="form-check-label" for="simulatedCheckbox">@EnumExtensions.GetDisplayName(SolutionValueType.Optimal)</label>
+                </div>
+                <div class="form-check form-check-inline mr-4">
+                    <input class="form-check-input" type="checkbox" id="idealCheckbox" value="@SolutionValueType.Ideal" data-name="@SolutionValueType.Ideal" checked>
+                    <label class="form-check-label" for="idealCheckbox">@SolutionValueType.Ideal</label>
+                </div>
+
+                <div class="form-group">
+                    <button type="button" class="btn btn-secondary btn-sm" id="addButton">Add</button>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row mt-3 ml-4 mb-1">
+            <div class="col" id="selectedComponents">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row no-gutters content-container">
+
+    <div class="col" id="chart-container">
+        <div id="chart1" class="dygraph-chart"></div>
+    </div>
+
+</div>
+<div id="overlay" class="d-none">
+    <img src="~/images/loader.gif" alt="Loading" /><br />
+    Loading...
+</div>
+
+<input id="projectId" type="hidden" value="@Model.ProjectId">
+<input id="channelId" type="hidden" value="@Model.ChannelId">
+<input id="nodeId" type="hidden" value="@Model.NodeId">
+
+<script src="@Url.Content( "~/lib/js/dygraph.min.js" )"></script>
+<script src="@Url.Content( "~/js/ReportingTools/Dygraph-custom.js" )"></script>
+<script src="@Url.Content( "~/lib/js/dygraph-extra.js" )"></script>
+<script src="@Url.Content( "~/js/ReportingTools/Chart.js" )"></script>
+<script src="@Url.Content( "~/js/ReportingTools/OptimalSolutions.js" )"></script>

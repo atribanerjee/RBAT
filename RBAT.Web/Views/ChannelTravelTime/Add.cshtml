@@ -1,0 +1,51 @@
+﻿@{
+    Layout = null;
+}
+<div class="modal" id="cttAddModal" tabindex="-1" style="z-index : 1052">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new record</h5>
+                <button type="button" class="close" onclick="cttAddModalClose()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input id="cttDetailElementID" type="hidden" value="@ViewBag.elementID" />               
+                <div class="form-group ">
+                    <input id="cttDetailFlowField" type="text" class="form-control" placeholder="Flow (m3/s)" />
+                </div>
+                <div class="form-group ">
+                    <input id="cttDetailTravelTimeField" type="text" class="form-control" placeholder="Travel Time (hours)" />
+                </div>               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="cttDetailAddRecord()">Save changes</button>
+                <button id="cttDetailClose" type="button" class="btn btn-secondary" onclick="cttAddModalClose()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function cttDetailAddRecord(e, dt, bt, config) {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "ChannelTravelTime/AddNew",
+            data: {                
+                elementID: document.getElementById("cttDetailElementID").value,                
+                flow: document.getElementById("cttDetailFlowField").value,
+                travelTime: document.getElementById("cttDetailTravelTimeField").value               
+            },
+            success: function (response) {
+                cttTable.draw();
+                document.getElementById("cttDetailClose").click();
+            }
+        })
+    }
+
+    function cttAddModalClose() {
+        $('#cttAddModal').modal('hide');
+    }
+</script>

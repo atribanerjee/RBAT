@@ -1,0 +1,89 @@
+﻿@using RBAT.Logic
+@inject DropDownService Options
+@{
+    ViewData["Title"] = ViewBag.title;
+    Layout = null;
+}
+
+@model RBAT.Core.Models.ChannelZoneLevelRecordedFlowStation
+
+<h2>@ViewBag.title</h2>
+<input type="hidden" id="czlChannelPolicyGroupID" value="@ViewBag.channelPolicyGroupID" />
+<input type="hidden" id="czlChannelID" value="@ViewBag.channelID" />
+<input type="hidden" id="czlNumberOfZonesAbove" value="@ViewBag.numberOfZonesAbove" />
+<input type="hidden" id="czlNumberOfZonesBelow" value="@ViewBag.numberOfZonesBelow" />
+<div class="col-sm-12">
+    @Html.DropDownList("Zone1Id",
+        Options.ListChannelZoneLevels((int)@ViewBag.channelPolicyGroupID).Select(c => new SelectListItem() { Text = c.Description, Value = c.Id.ToString(), Selected = (@Model != null) ? @Model.Zone1Id == c.Id : false }),
+        "Select Zone", new { @onchange = "zoneOrRecordedFlowStationChanged()" })
+
+    @Html.DropDownList("RecordedFlowStation1Id",
+        Options.ListRecordedFlowStations().Select(c => new SelectListItem() { Text = c.Name, Value = c.Id.ToString(), Selected = (@Model != null) ? @Model.RecordedFlowStation1Id == c.Id : false }),
+        "Select Recorded Flow Station", new { @onchange = "zoneOrRecordedFlowStationChanged()" })
+    &emsp;
+    &emsp;
+    @Html.DropDownList("Zone2Id",
+        Options.ListChannelZoneLevels((int)@ViewBag.channelPolicyGroupID).Select(c => new SelectListItem() { Text = c.Description, Value = c.Id.ToString(), Selected = (@Model != null) ? @Model.Zone2Id == c.Id : false }),
+        "Select Zone", new { @onchange = "zoneOrRecordedFlowStationChanged()", hidden = true })
+    @Html.DropDownList("RecordedFlowStation2Id",
+        Options.ListRecordedFlowStations().Select(c => new SelectListItem() { Text = c.Name, Value = c.Id.ToString(), Selected = (@Model != null) ? @Model.RecordedFlowStation2Id == c.Id : false }),
+        "Select Recorded Flow Station", new { @onchange = "zoneOrRecordedFlowStationChanged()", hidden = true })
+    &emsp;
+    &emsp;
+    @Html.DropDownList("Zone3Id",
+        Options.ListChannelZoneLevels((int)@ViewBag.channelPolicyGroupID).Select(c => new SelectListItem() { Text = c.Description, Value = c.Id.ToString(), Selected = (@Model != null) ? @Model.Zone3Id == c.Id : false }),
+        "Select Zone", new { @onchange = "zoneOrRecordedFlowStationChanged()", hidden = true })
+    @Html.DropDownList("RecordedFlowStation3Id",
+        Options.ListRecordedFlowStations().Select(c => new SelectListItem() { Text = c.Name, Value = c.Id.ToString(), Selected = (@Model != null) ? @Model.RecordedFlowStation3Id == c.Id : false }),
+        "Select Recorded Flow Station", new { @onchange = "zoneOrRecordedFlowStationChanged()", hidden = true })
+</div>
+<div class="row">
+    <div class="col-sm-6 btn-group" data-toggle="buttons">
+    </div>
+    <div id="czlButtons" class="col-sm-6 text-right">
+    </div>
+</div>
+<div class="col-sm-12 text-center">
+    <div id="czlBadInputAlert" class="alert alert-danger fade show" style="display:none">
+    </div>
+    <div id="czlSavedAlert" class="alert alert-success fade show" style="display:none">
+    </div>
+</div>
+<div id="czlTableWrapper" style="display:none">
+    <table id="czlTable" class="display compact" style="width:100%">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Year</th>
+                <th>Julian Day</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 6</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 5</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 4</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 3</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 2</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 1</th>
+                <th>Ideal Zone</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 1</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 2</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 3</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 4</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 5</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 6</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 7</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 8</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 9</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 10</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<div class="row">
+    <div id="czlButtonsBottom" class="col-sm-12 text-right">
+
+    </div>
+</div>
+<div id="czlShowModal"></div>
+
+<script>
+    $.getScript("/js/ChannelZone/ChannelZoneLevel.js");
+</script>

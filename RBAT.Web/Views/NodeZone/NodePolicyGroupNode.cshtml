@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = ViewBag.title;
+    Layout = null;
+}
+
+<h2>@ViewBag.title</h2>
+<input type="hidden" id="npgnNodePolicyGroupID" value="@ViewBag.nodePolicyGroupID" />
+<input type="hidden" id="npgnPreviousRow" name="npgnPreviousRow" value="-1" />
+<table id="npgnTable" class="display compact" style="width:100%">
+    <thead>
+        <tr>
+            <th></th>
+            <th width="120px;">Change order</th>
+            <th align="left">Name</th>
+        </tr>
+    </thead>    
+</table>
+<div id="npgnShowModal"></div>
+
+<script>
+    $.getScript("/js/NodeZone/NodePolicyGroupNode.js");
+</script>

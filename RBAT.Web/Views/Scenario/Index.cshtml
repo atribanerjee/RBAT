@@ -1,0 +1,60 @@
+﻿@using RBAT.Logic
+@inject DropDownService Options
+
+@{
+    ViewData["Title"] = ViewBag.title;
+}
+
+<h2>@ViewBag.title</h2>
+<div id="projectID" class="row" style="margin-top: 10px">
+    <div class="col-sm-12">
+        <label for="projectList">Projects:</label>
+        @Html.DropDownList("ProjectID",
+            Options.ListProjects().Select(c => new SelectListItem() { Text = c.Name.ToString(), Value = c.Id.ToString(), Selected = c.Id == @ViewBag.projectID }),
+            null, new { @onchange = "projectChanged()" })
+    </div>
+</div>
+
+<div class="col-sm-12 text-center">
+    <div id="sBadInputAlert" class="alert alert-danger fade show" style="display:none">
+    </div>
+    <div id="sSavedAlert" class="alert alert-success fade show" style="display:none">
+    </div>
+</div>
+
+<table id="scenarioTable" class="display compact" style="width:100%">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Id</th>
+            <th>ProjectId</th>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+    </thead>    
+</table>
+<div class="row">
+    <div id="sButtonsBottom" class="col-sm-12 text-right">
+
+    </div>
+</div>
+<div id="sShowModal"></div>
+<div id="cpgShowModal"></div>
+<script>
+    $.getScript("/js/Scenario/Scenario.js");
+</script>
+<style>
+    #scenarioTable {
+        clear: both;
+        word-wrap: break-word;
+    }
+
+        #scenarioTable td.details-control {
+            background: url('/images/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        #scenarioTable tr.shown td.details-control {
+            background: url('/images/details_close.png') no-repeat center center;
+        }
+</style>

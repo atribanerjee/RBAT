@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = ViewBag.title;
+    Layout = null;
+}
+
+<h2>@ViewBag.title</h2>
+<input type="hidden" id="nzwNodePolicyGroupID" value="@ViewBag.nodePolicyGroupID" />
+<input type="hidden" id="nzwNumberOfZonesAbove" value="@ViewBag.numberOfZonesAbove" />
+<input type="hidden" id="nzwNumberOfZonesBelow" value="@ViewBag.numberOfZonesBelow" />
+<div class="row">
+    <div class="col-sm-6 btn-group" data-toggle="buttons">
+    </div>
+    <div id="nzwButtons" class="col-sm-6 text-right">
+    </div>
+</div>
+<div class="col-sm-12 text-center">
+    <div id="nzwBadInputAlert" class="alert alert-danger fade show" style="display:none">
+    </div>
+    <div id="nzwSavedAlert" class="alert alert-success fade show" style="display:none">
+    </div>
+</div>
+<div id="nzwTableWrapper" style="display:none">
+    <table id="nzwTable" class="display compact" style="width:100%">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 6</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 5</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 4</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 3</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 2</th>
+                <th>Zone <span style="font-size: large">&#8613;</span> 1</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 1</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 2</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 3</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 4</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 5</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 6</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 7</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 8</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 9</th>
+                <th>Zone <span style="font-size: large">&#8615;</span> 10</th>
+            </tr>
+        </thead>        
+    </table>
+</div>
+<div class="row">
+    <div id="nzwButtonsBottom" class="col-sm-12 text-right">
+
+    </div>
+</div>
+<div id="nzwShowModal"></div>
+
+<script>
+    $.getScript("/js/NodeZone/NodeZoneWeight.js");
+</script>

@@ -1,0 +1,69 @@
+﻿@{
+    Layout = null;
+}
+
+@inject DropDownService Options
+
+@using RBAT.Logic
+@model RBAT.Web.Models.Project.ProjectModel
+<div class="modal" id="copyProjectModal" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Copy project to user</h5>
+                <button type="button" class="close" onclick="copyProjectModalClose()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group ">
+                    <input id="cpProjectId" type="hidden" name="Id" value="@Model.Id" />
+                    Choose user to copy project to:
+                    @Html.DropDownList( "cpUserName",
+                        Options.ListUsers().Result.Select( u => new SelectListItem { Text = u.UserName, Value = u.UserName } ),
+                        null,
+                        new { @class = "form-control" } )
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="cpCopyProject()">Copy project</button>
+                <button id="cpClose" type="button" class="btn btn-secondary" onclick="copyProjectModalClose()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function cpCopyProject(e, dt, bt, config) {
+        $('#overlay').removeClass("d-none").addClass("d-block");
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "Project/CopyProject",
+            data: {
+                projectId: document.getElementById("cpProjectId").value,
+                username: document.getElementById("cpUserName").value,
+            },
+            success: function (data, status, xhr) {
+                if (data.type === "Success") {
+                    $('#overlay').removeClass("d-block").addClass("d-none");
+                    showSuccessfullySaved('Project copied successfully');
+                    table.draw();
+                }                
+                else {
+                    $('#overlay').removeClass("d-block").addClass("d-none");
+                    showNotSaved('Project is not copied successfully');
+                }
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                $('#overlay').removeClass("d-block").addClass("d-none");
+                showNotSaved('Project is not copied successfully');
+            }
+        })
+
+        copyProjectModalClose();
+    }
+
+    function copyProjectModalClose() {
+        $('#copyProjectModal').modal('hide');
+    }
+</script>

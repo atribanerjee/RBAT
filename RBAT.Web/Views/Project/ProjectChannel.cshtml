@@ -1,0 +1,25 @@
+﻿
+@{
+    Layout = null;
+}
+
+<input id="channelProjectId" name="channelProjectId" type="hidden" value="@ViewBag.channelProjectId" />
+<input id="previousRow" name="previousRow" type="hidden" />
+
+<table id="projectChannelTable" class="display compact" style="width: 100%">
+    <thead>
+        <tr>
+            <th>ChannelId</th>
+            <th>Assigned</th>
+            <th>Name</th>
+            <th>Elemet Type</th>
+
+        </tr>
+    </thead>    
+</table>
+<div class="row">
+    <div id="projectChannelTableButtonsBottom" class="col-sm-12 text-right">
+
+    </div>
+</div>
+<script src="@Url.Content( "~/js/project/ProjectChannel.js" )"></script>

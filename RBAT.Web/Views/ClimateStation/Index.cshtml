@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = ViewBag.title;
+}
+
+
+<h2>@ViewBag.title</h2>
+<div class="col-sm-12 text-center">
+    <div id="badInputAlert" class="alert alert-danger fade show" style="display:none">
+    </div>
+    <div id="savedAlert" class="alert alert-success fade show" style="display:none">
+    </div>
+</div>
+
+<table id="climateStationTable" class="display compact" style="width:100%">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th style="width:70px">Evaporation</th>
+        </tr>
+    </thead>    
+</table>
+<div class="row">
+    <div id="buttonsBottom" class="col-sm-12 text-right">
+
+    </div>
+</div>
+<div id="showModal"></div>
+<div id="tsdShowModal"></div>
+<script src="@Url.Content("~/js/ClimateStation/ClimateStation.js")"></script>
+<style>
+    #climateStationTable {
+        clear: both;
+        word-wrap: break-word;
+    }
+
+        #climateStationTable td.details-control {
+            background: url('/images/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        #climateStationTable tr.shown td.details-control {
+            background: url('/images/details_close.png') no-repeat center center;
+        }
+</style>

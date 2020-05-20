@@ -1,0 +1,70 @@
+﻿@using RBAT.Logic
+@inject DropDownService Options
+@{
+    Layout = null;
+}
+
+@model RBAT.Web.Models.ChannelPolicyGroup.ChannelPolicyGroupModel
+
+<div class="modal" id="cpgAddModal" tabindex="-1" style="z-index : 1052">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new record</h5>
+                <button type="button" class="close" onclick="cpgAddModalClose()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="channelPolicyGroupForm">
+                    <input id="scenarioIDField" type="hidden" name="scenarioID" value="@Model.ScenarioID" />
+                    <div class="form-group">
+                        <input id="name" type="text" class="form-control" placeholder="Name" name="name" value="@Model.Name" />
+                    </div>
+                    <div class="form-group ">
+                        Channel Type:
+                        @Html.DropDownList("ChannelTypeID",
+                            Options.ListChannelTypesForPolicyGroup().Select( c => new SelectListItem { Text = c.Name, Value = c.Id.ToString(), Selected = Model.ChannelTypeID == c.Id } ),
+                            null,
+                            new { @class = "form-control", @onchange = "ChannelTypeChanged()" } )
+                    </div>
+                    <div class="form-group">
+                        <input id="numberOfZonesAboveIdealLevel" type="text" class="form-control" placeholder="Number Of Zones Above Ideal Level" name="numberOfZonesAboveIdealLevel" value="@Model.NumberOfZonesAbove" />
+                    </div>
+                    <div class="form-group">
+                        <input id="numberOfZonesBelowIdealLevel" type="text" class="form-control" placeholder="Number Of Zones Below Ideal Level" name="numberOfZonesBelowIdealLevel" value="@Model.NumberOfZonesBelow" />
+                    </div>
+                    <div class="form-group">
+                        <input id="zoneWeightsOffset" type="text" class="form-control" placeholder="Zone Weights Offset" name="zoneWeightsOffset" value="0.030303" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="RbatApp.ModalForm.saveRecord('#channelPolicyGroupForm','/ChannelPolicyGroup/AddNew')">Save changes</button>
+                <button id="close" type="button" class="btn btn-secondary" onclick="cpgAddModalClose()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function ChannelTypeChanged() {  
+        if (document.getElementById('ChannelTypeID').value === '2') {  /*diversion channel*/
+            document.getElementById('numberOfZonesAboveIdealLevel').value = 0;
+            document.getElementById('numberOfZonesAboveIdealLevel').disabled = true;
+            document.getElementById('numberOfZonesBelowIdealLevel').value = 0;
+            document.getElementById('numberOfZonesBelowIdealLevel').disabled = true;
+        }
+        else { 
+            document.getElementById('numberOfZonesAboveIdealLevel').value = '';
+            document.getElementById('numberOfZonesAboveIdealLevel').disabled = false;
+            document.getElementById('numberOfZonesBelowIdealLevel').value = '';
+            document.getElementById('numberOfZonesBelowIdealLevel').disabled = false;
+        }
+    }
+
+    function cpgAddModalClose() {
+        table.draw();
+        $('#cpgAddModal').modal('hide');
+    }
+</script>

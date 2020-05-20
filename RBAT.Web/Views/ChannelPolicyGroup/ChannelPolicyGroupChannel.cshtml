@@ -1,0 +1,26 @@
+﻿@{
+    Layout = null;
+}
+
+<h2>@ViewBag.title</h2>
+<input id="channelPolicyGroupId" name="channelPolicyGroupId" type="hidden" value="@ViewBag.channelPolicyGroupId" />
+<div class="row">
+    <div id="zaravnanjeID" class="col-sm-12" style="margin-top: 48px">
+
+    </div>
+</div>
+<table id="cpgcTable" class="display compact" style="width: 100%">
+    <thead>
+        <tr>
+            <th>ChannelId</th>
+            <th  style="width:15%">Assigned</th>
+            <th  style="width:63%">Name</th>
+            <th  style="width:22%">Channel Type</th>
+
+        </tr>
+    </thead>   
+</table>
+
+<script>
+    $.getScript("/js/ChannelPolicyGroup/ChannelPolicyGroupChannel.js");
+</script>

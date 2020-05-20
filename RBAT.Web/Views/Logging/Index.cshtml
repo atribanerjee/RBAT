@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="container-fluid">
+    <div class="col-2">
+        <ul class="nav nav-pills" id="actionMenu">
+            <li class="nav-item">
+                <a class="nav-link active" href="#" id="deleteDataButton">Delete All Records</a>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+    <div id="containerDiv"></div>
+
+    <script>
+        $(document).ready(function () {
+            getLog();
+        });
+
+        function getLog() {
+            $.ajax({
+                type: "GET",
+                url: "/Logging/RadData",
+                dataType: 'json',
+                success: function (text) {
+                    $('#containerDiv').empty();
+                    for (var i = 0; i < text.length; i++) {
+                        $("#containerDiv").append('<div class="myThing">' + text[i] + '</div>');
+                    }
+                    setTimeout(getLog, 3000); // refresh every 3 seconds
+                }
+            })
+        }
+
+        $("#deleteDataButton").click(function () {
+            $.ajax({
+                url: "/Logging/DeleteAllData",
+                method: 'POST',
+                dataType: 'json'
+            });
+        });
+    </script>

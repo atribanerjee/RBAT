@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = ViewBag.title;
+}
+
+<h2>@ViewBag.title</h2>
+<input type="hidden" id="isModal" value="@ViewBag.isModal.ToString()" />
+<div class="col-sm-12 text-center">
+    <div id="rfsBadInputAlert" class="alert alert-danger fade show" style="display:none">
+    </div>
+    <div id="rfsSavedAlert" class="alert alert-success fade show" style="display:none">
+    </div>
+</div>
+
+<table id="rfsTable" class="display compact" style="width:100%">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+    </thead>    
+</table>
+<div class="row">
+    <div id="rfsButtonsBottom" class="col-sm-12 text-right">
+
+    </div>
+</div>
+<div id="rfsShowAddModal"></div>
+<div id="tsdShowModal"></div>
+<script src="@Url.Content("~/js/recordedFlowStation/recordedFlowStation.js")"></script>
+<style>
+    #rfsTable {
+        clear: both;
+        word-wrap: break-word;
+    }
+
+        #rfsTable td.details-control {
+            background: url('/images/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        #rfsTable tr.shown td.details-control {
+            background: url('/images/details_close.png') no-repeat center center;
+        }
+</style>

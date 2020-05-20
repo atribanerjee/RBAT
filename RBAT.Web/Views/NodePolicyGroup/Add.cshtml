@@ -1,0 +1,105 @@
+﻿@using RBAT.Logic
+@inject DropDownService Options
+@{
+    Layout = null;
+}
+
+@model RBAT.Web.Models.NodePolicyGroup.NodePolicyGroupModel
+
+<div class="modal" id="npgAddModal" tabindex="-1" style="z-index : 1052">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new record</h5>
+                <button type="button" class="close" onclick="npgAddModalClose()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-sm-12 text-center">
+                    <div id="npgBadInputAlert" class="alert alert-danger fade show" style="display:none"></div>                   
+                </div>
+                <form id="nodePolicyGroupForm">
+                    <input id="scenarioIDField" type="hidden" name="scenarioID" value="@Model.ScenarioID" />
+                    <div class="form-group">
+                        <input id="name" type="text" class="form-control" placeholder="Name" name="name" value="@Model.Name" />
+                    </div>
+                    <div class="form-group ">
+                        Node Type:
+                        @Html.DropDownList("NodeTypeID",
+                            Options.ListNodeTypesForPolicyGroup().Select( c => new SelectListItem { Text = c.Name, Value = c.Id.ToString(), Selected = Model.NodeTypeID == c.Id } ),
+                            null,
+                            new { @class = "form-control", @onchange = "NodeTypeChanged()" } )
+                    </div>
+                    <div class="form-group">
+                        <input id="numberOfZonesAboveIdealLevel" type="text" class="form-control" placeholder="Number Of Zones Above Ideal Level" name="numberOfZonesAboveIdealLevel" value="@Model.NumberOfZonesAbove" />
+                    </div>
+                    <div class="form-group">
+                        <input id="numberOfZonesBelowIdealLevel" type="text" class="form-control" placeholder="Number Of Zones Below Ideal Level" name="numberOfZonesBelowIdealLevel" value="@Model.NumberOfZonesBelow" />
+                    </div>
+                    <div class="form-group">
+                        <input id="zoneWeightsOffset" type="text" class="form-control" placeholder="Zone Weights Offset" name="zoneWeightsOffset" value="0.030303" />
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBoxFor(m => m.EqualDeficits)
+                            Equal Deficits
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label id="CopyNodeLevelasFirstComponentLabel" style="display:none">
+                            @Html.CheckBoxFor(m => m.CopyNodeLevelasFirstComponent)
+                            Set all zones the same as the first component in the group
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <input id="startTimeStep" type="text" class="form-control" placeholder="Start Time Step" name="startTimeStep" value="@Model.StartTimeStep" />
+                    </div>
+                    <div class="form-group">
+                        <input id="endTimeStep" type="text" class="form-control" placeholder="End Time Step" name="endTimeStep" value="@Model.EndTimeStep" />
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="ValidateAndSave()">Save changes</button>
+                <button id="close" type="button" class="btn btn-secondary" onclick="npgAddModalClose()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function NodeTypeChanged() {  
+        if (document.getElementById('NodeTypeID').value === '2') {  /*consumptive use node*/
+            document.getElementById('numberOfZonesAboveIdealLevel').value = 0;
+            document.getElementById('numberOfZonesAboveIdealLevel').disabled = true;
+            document.getElementById('CopyNodeLevelasFirstComponentLabel').style.display = "";
+            
+        }
+        else { 
+            document.getElementById('numberOfZonesAboveIdealLevel').value = '';
+            document.getElementById('numberOfZonesAboveIdealLevel').disabled = false;
+            document.getElementById('CopyNodeLevelasFirstComponentLabel').style.display = "none";
+            document.getElementById('CopyNodeLevelasFirstComponent').checked = false;
+
+        }
+    }
+
+    function ValidateAndSave() { 
+        if (document.getElementById('NodeTypeID').value === '1' &&
+            document.getElementById('numberOfZonesBelowIdealLevel').value < 1) {
+            $("#npgBadInputAlert").html('There must be at least 1 zone below ideal');
+            npgShowAlert("#npgBadInputAlert");
+        }
+        else { 
+            RbatApp.ModalForm.saveRecord('#nodePolicyGroupForm', '/NodePolicyGroup/AddNew')            
+        }
+    }
+
+    function npgAddModalClose() {
+        table.draw();
+        $('#npgAddModal').modal('hide');
+    }
+</script>

@@ -1,0 +1,65 @@
+﻿@inject DropDownService Options
+@using RBAT.Logic
+
+@{
+    ViewData["Title"] = ViewBag.title;
+}
+
+<h2>@ViewBag.title</h2>
+<input type="hidden" id="selectedNodeId" value="@ViewBag.selectedNodeId">
+<div id="nodeTypeID" class="row" style="margin-top: 10px">
+    <div class="col-sm-12">
+        <label for="nodeTypeList">Node's types:</label>
+        @Html.DropDownList("NodeTypeID",
+            Options.ListNodeTypes().Select(c => new SelectListItem() { Text = c.Name.ToString(), Value = c.Id.ToString(), Selected = c.Id.ToString() == ViewBag.selectedNodeTypeId.ToString() }),
+            null, new { @onchange = "nodeTypeChanged()" })
+    </div>
+</div>
+
+<div class="col-sm-12 text-center">
+    <div id="badInputAlert" class="alert alert-danger fade show" style="display:none">
+    </div>
+    <div id="savedAlert" class="alert alert-success fade show" style="display:none">
+    </div>
+</div>
+
+<table id="nodeTable" class="display compact" style="width:100%">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Id</th>
+            <th>NodeTypeId</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th style="width:150px">Size Of Irrigated Area</th> 
+            <th style="width:100px">Land Use Factor</th>
+            <th style="width:150px">Units of Measure</th>
+        </tr>
+    </thead>    
+</table>
+<div class="row">
+    <div id="buttonsBottom" class="col-sm-12 text-right">
+
+    </div>
+</div>
+<div id="showModal"></div>
+<div id="tscShowModal"></div>
+<div id="tsdShowModal"></div>
+<div id="neShowModal"></div>
+<div id="tnfShowModal"></div>
+<script src="@Url.Content("~/js/node/node.js")"></script>
+<style>
+    #nodeTable {
+        clear: both;
+        word-wrap: break-word;
+    }
+
+        #nodeTable td.details-control {
+            background: url('/images/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        #nodeTable tr.shown td.details-control {
+            background: url('/images/details_close.png') no-repeat center center;
+        }
+</style>

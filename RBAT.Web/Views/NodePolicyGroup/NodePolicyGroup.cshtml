@@ -1,0 +1,33 @@
+﻿@{
+    Layout = null;
+}
+
+<h2>@ViewBag.title</h2>
+<input type="hidden" id="npgPreviousRow" name="npgPreviousRow" value="-1" />
+<table id="table" class="display compact" style="width:100%;">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>ScenarioID</th>
+            <th>NodeTypeID</th>
+            <th style="width:38%">Name</th>
+            <th style="width:17%">NodeType</th>
+            <th style="width:8%">Number Of Zones Above Ideal</th>
+            <th style="width:8%">Number Of Zones Below Ideal</th>
+            <th style="width:7%">Zone Weights Offset</th>
+            <th style="width:10%">Equal Deficits</th>
+            <th style="width:12%">Set all zones the same as the first component in the group</th>
+        </tr>
+    </thead>    
+</table>
+<div class="row">
+    <div id="npgButtonsBottom" class="col-sm-12 text-right">
+
+    </div>
+</div>
+<div id="npgDetailShowModal"></div>
+
+<script>
+    var scenarioID = @ViewBag.scenarioID;
+    $.getScript("/js/NodePolicyGroup/NodePolicyGroup.js");
+</script>

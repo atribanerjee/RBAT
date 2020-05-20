@@ -1,0 +1,27 @@
+﻿@using RBAT.Logic
+@inject DropDownService Options
+@{
+    ViewData["Title"] = ViewBag.title;
+}
+
+<div class="row">
+    <div id="scenarioID" class="col-sm-12" style="margin-top: 10px">
+        @if (@ViewBag.scenarioID != null)
+        {
+            <label for="scenarioList">Scenarios:</label>
+            @Html.DropDownList("ScenarioID",
+                Options.ListScenarios((int)@ViewBag.projectID).Select(c => new SelectListItem() { Text = c.Name.ToString(), Value = c.Id.ToString(), Selected = @ViewBag.scenarioID == c.Id }),
+                null, new { @onchange = "scenarioChanged()" })
+        }
+    </div>   
+</div>
+<div class="row">
+    <div id="nodePolicyGroupDiv" class="col-sm-8">        
+    </div>
+    <div id="nodePolicyGroupNodeDiv" class="col-sm-4">
+    </div>
+</div>
+
+<script>
+    $.getScript("/js/NodePolicyGroup/NodePolicy.js");
+</script>

@@ -1,0 +1,58 @@
+﻿@model RBAT.Web.Models.Admin.AdminModel
+
+@{
+    ViewData["Title"] = "Admin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>User Administration</h2>
+
+<hr />
+
+<div class="col-sm-12 text-center">
+    <div id="badInputAlert" class="alert alert-danger fade show" style="display:none">
+    </div>
+    <div id="savedAlert" class="alert alert-success fade show" style="display:none">
+    </div>
+</div>
+
+<div class="container">
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" class=" w-50">User</th>
+                @*<th scope="col">ID</th>*@
+                <th scope="col">Subscriber</th>
+                <th scope="col">Application User</th>
+                <th scope="col">Web Service User</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td>@user.UserName</td>
+                    @*<td>@user.Id</td>*@
+                    <td style="text-align:center;">
+                        <input type="checkbox" id="user_IsSubscriber" checked="@user.IsSubscriber" data-userid="@user.Id.ToString()" class="form-check-input" />
+                    </td>
+                    <td style="text-align:center;">
+                        <input type="checkbox" id="user_IsApplicationUser" checked="@user.IsApplicationUser" data-userid="@user.Id.ToString()" class="form-check-input" />
+                    </td>
+                    <td style="text-align:center;">
+                        <input type="checkbox" id="user_IsWebServiceUser" checked="@user.IsWebServiceUser" data-userid="@user.Id.ToString()" class="form-check-input" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="form-group d-flex justify-content-end">
+        <input type="submit" value="Save" class="btn btn-primary" id="saveButton" />
+    </div>
+</div>
+<div id="overlay" class="d-none">
+    <img src="~/images/loader.gif" alt="Loading" /><br />
+    Loading...
+</div>
+<script src="@Url.Content( "~/js/Admin/Admin.js" )"></script>

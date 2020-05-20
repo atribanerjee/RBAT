@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = ViewBag.title;
+    Layout = null;
+}
+
+<h2>@ViewBag.title</h2>
+<input type="hidden" id="cpgcChannelPolicyGroupID" value="@ViewBag.channelPolicyGroupID" />
+<input type="hidden" id="cpgcPreviousRow" name="cpgcPreviousRow" value="-1" />
+<table id="cpgcTable" class="display compact" style="width:100%">
+    <thead>
+        <tr>
+            <th></th>
+            <th width="120px;">Change order</th>
+            <th align="left">Name</th>
+        </tr>
+    </thead>    
+</table>
+<div id="cpgcShowModal"></div>
+
+<script>
+    $.getScript("/js/ChannelZone/ChannelPolicyGroupChannel.js");
+</script>

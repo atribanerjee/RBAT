@@ -1,0 +1,55 @@
+﻿@using RBAT.Logic
+@inject DropDownService Options
+@{
+    Layout = null;
+}
+<div class="modal" id="neAddModal" tabindex="-1" style="z-index:1052">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new record</h5>
+                <button type="button" class="close" onclick="neAddModalClose()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input id="neDetailNodeIDField" type="hidden" value="@ViewBag.nodeID" />
+                <div class="form-group ">
+                    Climate Station:
+                    @Html.DropDownList("neDetailClimateStationIDField",
+                          Options.ListClimateStations().Select(c => new SelectListItem() { Text = c.Name, Value = c.Id.ToString() }))
+                </div>
+                <div class="form-group ">
+                    <input id="neDetailAdjustmentFactorField" type="text" class="form-control" placeholder="Adjustment Factor" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="neAddRecord()">Save changes</button>
+                <button id="neDetailClose" type="button" class="btn btn-secondary" onclick="neAddModalClose()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function neAddRecord(e, dt, bt, config) {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "NetEvaporation/AddNew",
+            data: {
+                nodeID: document.getElementById("neDetailNodeIDField").value,
+                climateStationID: document.getElementById("neDetailClimateStationIDField").value,
+                adjustmentFactor: document.getElementById("neDetailAdjustmentFactorField").value
+            },
+            success: function (response) {
+                neTable.draw();
+                document.getElementById("neDetailClose").click();
+            }
+        })
+    }
+
+    function neAddModalClose() {
+        $('#neAddModal').modal('hide');
+    }
+</script>

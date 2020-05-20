@@ -1,0 +1,8 @@
+.vs
+/RBAT.Web/node_modules
+/RBAT.Web/obj
+/RBAT.Web/bin
+/RBAT.Core/bin
+/RBAT.Core/obj
+/RBAT.Logic/bin
+/RBAT.Logic/obj

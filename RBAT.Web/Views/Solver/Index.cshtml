@@ -1,0 +1,160 @@
+﻿@using RBAT.Logic
+@inject DropDownService Options
+@{
+    ViewData["Title"] = ViewBag.title;
+}
+
+@*<input type="hidden" id="projectID" value="@ViewBag.projectID" />
+    <input type="hidden" id="scenarioID" value="@ViewBag.scenarioID" />*@
+
+<div class="row">
+    <div class="form-group col-sm-3">
+        <label for="projectList">Projects:</label>
+        @Html.DropDownList("ProjectID",
+            Options.ListProjects().Select(c => new SelectListItem() { Text = c.Name.ToString(), Value = c.Id.ToString() }), "Select Project"
+            , new { @onchange = "projectChanged()", @class = "form-control" })
+    </div>
+    <div class="form-group col-sm-3" id="ScenariosDiv">
+        <label for="scenarioList">Scenarios:</label>
+        <select id="ScenarioID" name="ScenarioID" class="form-control"></select>
+    </div>
+</div>
+@{ if (User.IsInRole("Admin"))
+    {
+        <div class="row">
+
+            <div class="form-group col-sm-3">
+                <input type="checkbox" id="chkSaveConstraintsAsTXTFile" name="chkSaveConstraintsAsTXTFile">
+                <label for="chkSaveConstraintsAsTXTFile">Save Constraints As TXT File</label>
+            </div>
+
+            <div class="form-group col-sm-3">
+                <input type="checkbox" id="chkDebugMode" name="chkDebugMode">
+                <label for="chkDebugMode">Debug Mode</label>
+            </div>
+
+            <div class="form-group col-sm-3">
+                <input type="checkbox" id="chkSaveConstraintsAsLINDOFile">
+                <label for="chkSaveConstraintsAsLINDOFile">Save Solver's Debug File</label>
+            </div>
+        </div>
+    }}
+<div class="row">
+    <div class="form-group col-sm-3">
+        <input type="checkbox" id="chkSaveResultsAsVolumes">
+        <label for="chkSaveResultsAsVolumes">Use units of volume</label>
+    </div>
+
+    <div class="form-group col-sm-3">
+        <input type="checkbox" id="chkSaveComponentName" name="chkSaveComponentName">
+        <label for="chkSaveComponentName">Save Component's Name To Results</label>
+    </div>
+    <div class="form-group col-sm-3">
+        <input type="checkbox" id="chkSaveOptimalSolutionsAsTXTFile" checked>
+        <label for="chkSaveOptimalSolutionsAsTXTFile">Download solution</label>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="form-group col-sm-3">
+        <input type="checkbox" id="chkSeasonalModel">
+        <label for="chkSeasonalModel">Seasonal Operation</label>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-sm-3">
+        <label for="startDate">Start Date</label>
+        <div class="input-group date" data-provide="datepicker">
+            <input id="startDate" class="form-control" name="startDate" data-date-format="YYYY/MM/DD" type="text" value="01/01/1900">
+            <div class="input-group-addon">
+                <i class="fas fa-calendar-alt fa-fw" style="line-height: 1em; font-size: 18px; top: 1px;"></i>
+            </div>
+        </div>
+    </div>
+    <div class="form-group col-sm-3">
+        <label for="txtNumberOfTimeIntervals">Number of Time Intervals</label>
+        <input type="text" class="form-control" id="txtNumberOfTimeIntervals" value="1">
+    </div>
+    <div class="form-group col-sm-3">
+        <label for="txtSensitivityAnalysis">Sensitivity Analysis</label>
+        <input type="text" class="form-control" id="txtSensitivityAnalysis" value="0.0000">
+    </div>
+    <div class="form-group col-sm-3">
+        <label for="txtAridityFactor">Aridity Factor</label>
+        <input type="text" class="form-control" id="txtAridityFactor" value="0.5000">
+    </div>
+</div>
+
+<div class="row">
+    <div class="form-group col-sm-1">
+        <button type="button" class="btn btn-primary" onclick="calculate()">Calculate</button>
+    </div>
+    <div class="form-group col-sm-11">
+        <button type="button" class="btn btn-primary" onclick="calculateFromWebService()">Calculate From WEB Service</button>
+    </div>
+</div>
+
+<div id="seasonalModelDiv" style="visibility: hidden;">
+    Please take a look at provided data for seasonal model. Update data if it is needed and click to do calculation including that data.
+    <input type="button" id="btnCalculate" onclick="runSolverWithSeasonalModel()" value="Calculate including seasonal data" class="btn btn-primary" />
+    <div id="tabs" style="margin-top: 10px;">
+        <ul>
+            <li><a href="#tabs-1" class="tab">Reservoir Levels</a></li>
+            <li><a href="#tabs-2" class="tab">Water Demands</a></li>
+            <li><a href="#tabs-3" class="tab">Diversion Licenses</a></li>
+            <li><a href="#tabs-4" class="tab">Apportionment Targets</a></li>
+        </ul>
+        <div id="tabs-1">
+            <div id="seasonalReservoirLevelDiv" class="col-sm-12">
+
+            </div>
+        </div>
+        <div id="tabs-2">
+            <div id="seasonalWaterDemandDiv" class="col-sm-12">
+
+            </div>
+        </div>
+        <div id="tabs-3">
+            <div id="seasonalDiversionLicenseDiv" class="col-sm-12">
+
+            </div>
+        </div>
+        <div id="tabs-4">
+            <div id="seasonalApportionmentTargetDiv" class="col-sm-12">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="overlay" class="d-none">
+    <img src="~/images/loader.gif" alt="Loading" /><br />
+    Loading...
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#ScenariosDiv').hide();
+    });
+
+    $.getScript("/js/Solver/Solver.js");
+
+    function projectChanged() {
+        var projectID = $("#ProjectID").val();
+        $.ajax({
+            url: "/Solver/ScenarioList",
+            method: 'GET',
+            data: { projectID },
+            dataType: 'json',
+            success: function (data, status, xhr) {
+                var items = '<option>Select Scenario</option>';
+                $.each(data.scenarioList,
+                    function (i, state) {
+                        items += "<option value='" + state.id + "'>" + state.name + "</option>";
+                    });
+                $('#ScenarioID').html(items);
+                $('#ScenariosDiv').show();
+            }
+        });
+    }
+</script>

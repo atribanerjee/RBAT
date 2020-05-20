@@ -1,0 +1,43 @@
+﻿@using RBAT.Logic
+@inject DropDownService Options
+
+@{
+    ViewData["Title"] = ViewBag.title;
+}
+
+<h2>@ViewBag.title</h2>
+<div id="projectID" class="row" style="margin-top: 10px">
+    <div class="col-sm-12">
+        <label for="projectList">Projects:</label>
+        @Html.DropDownList("ProjectID",
+            Options.ListProjects().Select(c => new SelectListItem() { Text = c.Name.ToString(), Value = c.Id.ToString(), Selected = c.Id == @ViewBag.projectID }),
+            null, new { @onchange = "projectChanged()" })
+    </div>
+</div>
+
+<div class="col-sm-12 text-center">
+    <div id="badInputAlert" class="alert alert-danger fade show" style="display:none">
+    </div>
+    <div id="savedAlert" class="alert alert-success fade show" style="display:none">
+    </div>
+</div>
+
+<table id="startingReservoirLevelTable" class="display compact" style="width:100%">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Scenario</th>
+            <th>Reservoir</th>
+            <th>Initial Elevation (m)</th>
+        </tr>
+    </thead>    
+</table>
+<div class="row">
+    <div id="srlButtonsBottom" class="col-sm-12 text-right">
+
+    </div>
+</div>
+<div id="srlShowModal"></div>
+<script>
+    $.getScript("/js/StartingReservoirLevel/StartingReservoirLevel.js");
+</script>

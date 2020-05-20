@@ -1,0 +1,66 @@
+﻿@{
+    Layout = null;
+}
+<div class="modal" id="tscAddModal" tabindex="-1" style="z-index:1052">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new record</h5>
+                <button type="button" class="close" onclick="tscAddModalClose()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input id="tscDetailElementID" type="hidden" value="@ViewBag.elementID" />
+                <div class="form-group ">
+                    <label for="surveyDate">Survey Date: </label>
+                    <div class="input-group date" data-provide="datepicker">
+                        <input id="tscDetailSurveyDateField" name="tscDetailSurveyDateField" data-date-format="YYYY/MM/DD" type="text" value="01/01/1900">
+                        <div class="input-group-addon">
+                            <i class="fas fa-calendar-alt fa-fw" style="line-height: 1em; font-size: 18px; top: 1px;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <input id="tscDetailElevationField" type="text" class="form-control" placeholder="Elevation (m)" />
+                </div>
+                <div class="form-group ">
+                    <input id="tscDetailAreaField" type="text" class="form-control" placeholder="Area (ha)" />
+                </div>
+                <div class="form-group ">
+                    <input id="tscDetailVolumeField" type="text" class="form-control" placeholder="Volume (1000m3)" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="tscAddRecord()">Save changes</button>
+                <button id="tscDetailClose" type="button" class="btn btn-secondary"  onclick="tscAddModalClose()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function tscAddRecord(e, dt, bt, config) {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "TimeStorageCapacity/AddNew",
+            data: {                
+                elementID: document.getElementById("tscDetailElementID").value,                
+                surveyDate: document.getElementById("tscDetailSurveyDateField").value,
+                elevation: document.getElementById("tscDetailElevationField").value,
+                area: document.getElementById("tscDetailAreaField").value,
+                volume: document.getElementById("tscDetailVolumeField").value
+            },
+            success: function (response) {
+                tscTable.draw();
+                document.getElementById("tscDetailClose").click();
+            }
+        })
+    }
+
+    function tscAddModalClose() {
+        $('#tscAddModal').modal('hide');
+    }
+
+</script>

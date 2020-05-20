@@ -1,0 +1,130 @@
+﻿@using RBAT.Logic
+@inject DropDownService Options
+@{
+    ViewData["Title"] = "Deficit Tables";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .content-container {
+        height: calc(100% - 50px);
+    }
+
+    #chart-container {
+        position: relative;
+        width: 60%;
+    }
+
+    .dygraph-chart {
+        position: absolute;
+        left: 1px;
+        right: 1px;
+        top: 1px;
+        bottom: 1px;
+        min-width: 100%;
+        max-height: 100%;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-3">
+            <h2>Nodes Deficit Tables</h2>
+        </div>
+        <div class="col-9 form-inline">
+
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid p-0 content-container">
+<div class="row">
+    <div class="form-group col-sm-3">
+        <label for="projectList">Projects:</label>
+        @Html.DropDownList("ProjectID",
+            Options.ListProjects().Select(c => new SelectListItem() { Text = c.Name.ToString(), Value = c.Id.ToString() }), "Select Project"
+            , new { @onchange = "projectChanged()", @class = "form-control" })
+    </div>
+    <div class="form-group col-sm-3" id="ScenariosDiv">
+        <label for="scenarioList">Scenarios:</label>
+        <select id="ScenarioID" name="ScenarioID" onchange="scenarioChanged()" class="form-control"></select>
+    </div>
+    <div class="form-group col-sm-3">
+        <label for="chartTypeList" class="mr-2">Deficit Table Type:</label>
+        <select class="form-control" id="chartType">
+            <option value="absoluteDeficit">Absolute Deficit</option>
+            <option value="relativeDeficit">Relative Deficit</option>
+            <option value="annualDeficit">Annual Deficit For All Cunsumptive Use Components</option>
+        </select>
+    </div>
+    <div class="form-group col-sm-2">
+        <label for="componentsList">Components:</label>
+        <select id="ComponentID" name="ComponentID" class="form-control"></select>
+    </div>
+    <div class="form-group col-sm-1">
+        <br/>
+        <button type="button" class="btn btn-primary" id="refreshButton">Refresh</button>
+    </div>
+</div>
+
+<div id="deficitTablesDataDiv">
+</div>
+
+<script>
+    function projectChanged() {
+        var projectID = $("#ProjectID").val();
+        $.ajax({
+            url: "GetProjectScenarios",
+            method: 'GET',
+            data: {
+                projectID,
+                isNodeChart: true
+            },
+            dataType: 'json',
+            success: function (projectScenarios) {
+                var items = '<option>Select Scenario</option>';
+                $.each(projectScenarios,
+                    function(i, state) {
+                        items += "<option value='" + state.name + "'>" + state.name + "</option>";
+                    });
+                $('#ScenarioID').html(items);
+            }
+        });
+    }
+
+    function scenarioChanged() {
+        var scenarioName = $("#ScenarioID").val();
+        var projectID = $("#ProjectID").val();
+        $.ajax({
+            url: "/ReportingTools/ComponentsList",
+            method: 'GET',
+            data: { projectID, scenarioName, isNode:true },
+            dataType: 'json',
+            success: function (data, status, xhr) {
+                var items = '<option>Select Components</option>';
+                $.each(data.nodeList,
+                    function (i, state) {
+                        items += "<option value='" + state.id + "'>" + state.name + "</option>";
+                    });
+                $('#ComponentID').html(items);
+            }
+        });
+    }
+
+    $("#refreshButton").click(function() {
+        var scenarioName = $("#ScenarioID").val();
+        var projectID = $("#ProjectID").val();
+        var componentID = $("#ComponentID").val();
+        var deficitType = $("#chartType").val();
+ 
+
+        $.ajax({
+            url: "/ReportingTools/DeficitTablesData",
+            data: { projectID, scenarioName, componentID, isNodeComponent: true, deficitType }
+        }).done(function (msg) {
+            $("#deficitTablesDataDiv").html(msg);
+        });
+
+    });
+</script>
+@*<script src="@Url.Content( "~/js/ReportingTools/DeficitTables.js" )"></script>*@
