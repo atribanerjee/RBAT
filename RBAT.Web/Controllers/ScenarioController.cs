@@ -56,7 +56,8 @@ namespace RBAT.Web.Controllers
                 CalculationBeginsDate = DateTime.Now.Date,
                 CalculationEndsDate = DateTime.Now.Date,
                 CalculationBegins = DateTime.Now.ToString("d", CultureInfo.InvariantCulture),
-                CalculationEnds = DateTime.Now.ToString("d", CultureInfo.InvariantCulture)
+                CalculationEnds = DateTime.Now.ToString("d", CultureInfo.InvariantCulture),
+                OutflowConstraintsUsed = true
             };
             return View(model);
         }

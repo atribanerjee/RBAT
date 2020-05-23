@@ -37,5 +37,8 @@ namespace RBAT.Core.Models
         public ICollection<NodePolicyGroup> NodePolicyGroups { get; set; }
         public ICollection<CustomTimeStep> CustomTimeSteps { get; set; }
         public ICollection<StartingReservoirLevel> StartingReservoirLevels { get; set; }
+
+        [DefaultValue(1)]
+        public bool OutflowConstraintsUsed { get; set; }
     }
 }

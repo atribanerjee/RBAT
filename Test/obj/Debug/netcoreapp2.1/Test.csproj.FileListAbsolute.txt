@@ -32,3 +32,20 @@ D:\Projects\Interview\RBAT WEB\Test\obj\Debug\netcoreapp2.1\Test.AssemblyInfo.cs
 D:\Projects\Interview\RBAT WEB\Test\obj\Debug\netcoreapp2.1\Test.csproj.CopyComplete
 D:\Projects\Interview\RBAT WEB\Test\obj\Debug\netcoreapp2.1\Test.dll
 D:\Projects\Interview\RBAT WEB\Test\obj\Debug\netcoreapp2.1\Test.pdb
+D:\Projects\Nesa\RBAT\Test\bin\Debug\netcoreapp2.1\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+D:\Projects\Nesa\RBAT\Test\bin\Debug\netcoreapp2.1\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+D:\Projects\Nesa\RBAT\Test\bin\Debug\netcoreapp2.1\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+D:\Projects\Nesa\RBAT\Test\bin\Debug\netcoreapp2.1\Test.deps.json
+D:\Projects\Nesa\RBAT\Test\bin\Debug\netcoreapp2.1\Test.runtimeconfig.json
+D:\Projects\Nesa\RBAT\Test\bin\Debug\netcoreapp2.1\Test.runtimeconfig.dev.json
+D:\Projects\Nesa\RBAT\Test\bin\Debug\netcoreapp2.1\Test.dll
+D:\Projects\Nesa\RBAT\Test\bin\Debug\netcoreapp2.1\Test.pdb
+D:\Projects\Nesa\RBAT\Test\bin\Debug\netcoreapp2.1\RBAT.Core.dll
+D:\Projects\Nesa\RBAT\Test\bin\Debug\netcoreapp2.1\RBAT.Core.pdb
+D:\Projects\Nesa\RBAT\Test\obj\Debug\netcoreapp2.1\Test.csprojAssemblyReference.cache
+D:\Projects\Nesa\RBAT\Test\obj\Debug\netcoreapp2.1\Test.csproj.CoreCompileInputs.cache
+D:\Projects\Nesa\RBAT\Test\obj\Debug\netcoreapp2.1\Test.AssemblyInfoInputs.cache
+D:\Projects\Nesa\RBAT\Test\obj\Debug\netcoreapp2.1\Test.AssemblyInfo.cs
+D:\Projects\Nesa\RBAT\Test\obj\Debug\netcoreapp2.1\Test.csproj.CopyComplete
+D:\Projects\Nesa\RBAT\Test\obj\Debug\netcoreapp2.1\Test.dll
+D:\Projects\Nesa\RBAT\Test\obj\Debug\netcoreapp2.1\Test.pdb

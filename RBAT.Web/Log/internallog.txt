@@ -1,0 +1,7 @@
+2020-05-23 20:22:51.9844 Info Message Template Auto Format enabled
+2020-05-23 20:22:52.0432 Info Adding target File Target[alllogfile]
+2020-05-23 20:22:52.0432 Info Adding target File Target[solverresultsfile]
+2020-05-23 20:22:52.0432 Info Adding target File Target[errorlogfile]
+2020-05-23 20:22:52.0432 Info Adding target NLogViewer Target[viewer]
+2020-05-23 20:22:52.0624 Info Configured from an XML element in D:\Projects\Nesa\RBAT\RBAT.Web\bin\Debug\netcoreapp2.0\nlog.config...
+2020-05-23 20:22:52.0624 Info Found 52 configuration items

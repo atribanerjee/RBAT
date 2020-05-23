@@ -37,6 +37,8 @@ namespace RBAT.Web.Models.Scenario
         public string ScenarioType { get; set; }
 
         public string NumberOfLookaheadTimeSteps { get; set; }
+
+        public bool OutflowConstraintsUsed { get; set; }
     }
 
     internal static partial class ViewModelExtensions
@@ -64,7 +66,8 @@ namespace RBAT.Web.Models.Scenario
                 TimeStepType = source.TimeStepType?.Name,
                 ScenarioTypeID = source.ScenarioTypeID,
                 ScenarioType = source.ScenarioType?.Name,
-                NumberOfLookaheadTimeSteps = source.NumberOfLookaheadTimeSteps.ToString()
+                NumberOfLookaheadTimeSteps = source.NumberOfLookaheadTimeSteps.ToString(),
+                OutflowConstraintsUsed = source.OutflowConstraintsUsed
             };
         }
 
@@ -100,7 +103,8 @@ namespace RBAT.Web.Models.Scenario
                 TimeStepTypeID = source.TimeStepTypeID,
                 DataTimeStepTypeID = source.DataTimeStepTypeID,
                 ScenarioTypeID = source.ScenarioTypeID,
-                NumberOfLookaheadTimeSteps = source.NumberOfLookaheadTimeSteps == string.Empty ? 0  : Convert.ToInt16(source.NumberOfLookaheadTimeSteps)
+                NumberOfLookaheadTimeSteps = source.NumberOfLookaheadTimeSteps == string.Empty ? 0  : Convert.ToInt16(source.NumberOfLookaheadTimeSteps),
+                OutflowConstraintsUsed = source.OutflowConstraintsUsed
             };
         }
     }
